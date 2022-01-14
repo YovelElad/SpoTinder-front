@@ -27,16 +27,14 @@ function App() {
   return (
     <div>
 
-      <Container  maxWidth="sm" >
         <PageContext.Provider value={{page,setPage}}>
           <NavBar/>
         </PageContext.Provider>
         <UserContext.Provider value={user}>
-          <Box sx={{ bgcolor: '#cfe8fc', height: '80vh' }}>
+          <Box sx={{height: '80vh' }}>
             {renderSwitch(page)}
           </Box>
         </UserContext.Provider>
-      </Container>
     </div>
   );
 }
