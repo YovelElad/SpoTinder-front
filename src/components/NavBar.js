@@ -14,7 +14,7 @@ export default function NavBar() {
     setPage(newValue);
   };
   return (
-    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex:"30"}} elevation={30}>
       <BottomNavigation value={page} onChange={handleChange}>
         <BottomNavigationAction
           label="Home"
