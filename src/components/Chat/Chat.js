@@ -21,8 +21,6 @@ export default function Chat(props) {
         }
       }
     useEffect(() => {
-        console.log('chat')
-        console.log(scrollRef)
     if (scrollRef.current) {
         scrollRef.current.scrollIntoView({ behaviour: "smooth" });
     }
