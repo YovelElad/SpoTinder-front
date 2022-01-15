@@ -8,7 +8,7 @@ import MatchModal from '../MatchModal/MatchModal'
 export default function MatchList() {
     const {user} = useContext(UserContext);
     const [open, setOpen] = React.useState(false);
-    const [selectedUser, setSelectedUser] = React.useState(null);
+    const [selectedUser, setSelectedUser] = React.useState({});
 
     const handleOpen = (user) => {
         setSelectedUser(user);
@@ -29,7 +29,8 @@ export default function MatchList() {
             <MatchListItem profile={user} onClick={handleOpen}/>
             <MatchListItem profile={user} onClick={handleOpen}/>
             <MatchListItem profile={user} onClick={handleOpen}/>
-            <MatchModal isOpen={open} handleClose={handleClose}/>
+            {open && <MatchModal isOpen={open} handleClose={handleClose} profile={selectedUser}/>}
+            
         </Grid>
     )
 }
