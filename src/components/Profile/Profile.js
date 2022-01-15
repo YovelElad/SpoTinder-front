@@ -10,6 +10,7 @@ export default function Profile() {
     const {user} = useContext(UserContext);
     const theme = useContext(ThemeContext);
     
+    
     return (
         <div>
         

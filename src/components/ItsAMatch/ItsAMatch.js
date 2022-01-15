@@ -3,10 +3,12 @@ import { Typography, Avatar, Box,Stack, Button, Container } from '@mui/material'
 import React from 'react'
 import { ThemeContext } from '../../Contexts/ThemeContext';
 import { UserContext } from '../../Contexts/UserContext';
+import { PageContext } from '../../Contexts/PageContext';
 
 export default function ItsAMatch(props) {
     const theme = React.useContext(ThemeContext);
     const {user} = React.useContext(UserContext);
+    const {setPage} = React.useContext(PageContext);
 
     const FilledButton = styled(Button)({
         background:'linear-gradient(180deg, #BB34D2 0%, #E12CC2 100%)',
@@ -84,8 +86,8 @@ export default function ItsAMatch(props) {
             </Box>
             <Container>
                 <Stack spacing={3} mt={8}>
-                    <FilledButton>send a message</FilledButton>
-                    <OutlinedButton>keep scrolling</OutlinedButton>
+                    <FilledButton onClick={()=>setPage("matches")}>send a message</FilledButton>
+                    <OutlinedButton onClick={()=>setPage("home")} >keep scrolling</OutlinedButton>
                 </Stack>
             </Container>
         </div>

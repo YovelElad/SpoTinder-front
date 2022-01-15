@@ -46,13 +46,13 @@ function App() {
         <ThemeContext.Provider value={theme}>
         <PageContext.Provider value={{page,setPage}}>
           <NavBar/>
-        </PageContext.Provider>
         <UserContext.Provider value={{user,updateUser}}>
           <Box>
             {renderSwitch(page)}
             <Box sx={{height: "10vh"}}/>
           </Box>
         </UserContext.Provider>
+        </PageContext.Provider>
         </ThemeContext.Provider>
     </div>
   );
