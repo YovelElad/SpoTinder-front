@@ -16,11 +16,11 @@ const ofir = {_id:{$oid:"61c5aa15ab0230614f09a5a4"},email:"ofir@email.com",passw
 const renderSwitch = (page) => {
   switch(page) {
     case 'home':
-      return <><NavBar/><Home/></>;
+      return <><NavBar/><Home/><Box sx={{height: "10vh"}}/></>;
     case 'matches':
-      return <><NavBar/><Matches/></>;
+      return <><NavBar/><Matches/><Box sx={{height: "10vh"}}/></>;
     case 'profile':
-      return <><NavBar/><Profile/></>;
+      return <><NavBar/><Profile/><Box sx={{height: "10vh"}}/></>;
     case 'chat':
       return <Chat/>;
     case 'its-a-match':
@@ -55,7 +55,7 @@ function App() {
           {/* <NavBar/> */}
           <Box>
             {renderSwitch(page)}
-            <Box sx={{height: "10vh"}}/>
+            
           </Box>
         </UserContext.Provider>
         </PageContext.Provider>
