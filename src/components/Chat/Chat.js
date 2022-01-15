@@ -6,6 +6,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SendIcon from '@mui/icons-material/Send';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Message from '../Message/Message';
+import { useSocket } from '../../Contexts/SocketProvider';
 
 
 export default function Chat(props) {
@@ -14,6 +15,7 @@ export default function Chat(props) {
     const [message, setMessage] = React.useState('')
     const [messages, setMessages] = React.useState([{me:false, msg:'Hello'},{me:true, msg:'Hi'},{me:false, msg:'How are you?'},{me:true, msg:'I am fine'},{me:false,msg:"What's up?"}]);
     const scrollRef = useRef(null)
+    const socket = useSocket();
 
     const onKeyDown = (event) => {
         if (event.key === 'Enter' || event.code === "NumpadEnter") {
@@ -27,14 +29,25 @@ export default function Chat(props) {
     }, [messages]);
 
     const handleChange = (e) => {
-        setMessage(e.target.value)
+        setMessage(e.target.value);
     }
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        setMessages([...messages, {msg:message, me: true}])
-        setMessage('')
+        e.preventDefault();
+        setMessages([...messages, {msg:message, me: true}]);
+        socket.emit("send-message", {message, recipient: user._id.$oid});
+        setMessage('');
     }
+
+    useEffect(() => {
+        socket.on("receive-message", (data) => {
+            console.log(data);
+            const newMsg = {msg: data.data, me: false}
+            setMessages((prev) => [...prev, newMsg]);
+
+            return () => socket.off('receive-message');
+        });
+    }, []);
 
 
     return (
