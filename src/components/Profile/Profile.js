@@ -1,19 +1,19 @@
 import React, { useContext } from 'react'
 import { UserContext } from '../../Contexts/UserContext';
+import { ThemeContext } from '../../Contexts/ThemeContext';
 import { Avatar, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import TopBackground from '../TopBackground/TopBackground';
 
-//#b14fed
-
 export default function Profile() {
     const {user} = useContext(UserContext);
+    const theme = useContext(ThemeContext);
     
     return (
         <div>
         
-        <TopBackground color="#b14fed"/>
+        <TopBackground color={theme.purple}/>
         <Box style={{height: "321px",}}>
             <Box style={{ 
                 justifyContent: "center", 
