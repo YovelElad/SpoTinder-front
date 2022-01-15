@@ -5,8 +5,6 @@ import Typography from '@mui/material/Typography';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import TopBackground from '../TopBackground/TopBackground';
 
-//#b14fed
-
 export default function Profile() {
     const {user} = useContext(UserContext);
     
