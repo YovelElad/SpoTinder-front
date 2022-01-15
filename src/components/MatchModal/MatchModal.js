@@ -11,6 +11,7 @@ import Stack from '@mui/material/Stack';
 import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ThemeContext } from '../../Contexts/ThemeContext';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 
 const style = {
@@ -66,7 +67,7 @@ export default function MatchModal(props) {
                         <CloseIcon  sx={{color: "white"}}/>
                     </IconButton>
                     <IconButton aria-label="delete" sx={{background: theme.purple}}>
-                        <FavoriteIcon sx={{color: "white"}}/>
+                        {props.profile.isFavorite ? <FavoriteIcon sx={{color: "white"}}/> : <FavoriteBorderIcon sx={{color: "white"}}/>}
                     </IconButton>
                 </Stack>
                 </Box>
