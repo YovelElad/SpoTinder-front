@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography'
 
 export default function ChatListItem(props) {
     return (
-        <ListItem alignItems="flex-start">
+        <ListItem alignItems="flex-start" onClick={props.onClick}>
             <ListItemAvatar>
             <Avatar alt="Remy Sharp" src={props.image}  sx={{ width: 61, height: 61 }}/>
             </ListItemAvatar>
