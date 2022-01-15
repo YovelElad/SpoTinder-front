@@ -1,5 +1,5 @@
 import { Container, Box, Typography, Avatar, IconButton, TextField, InputBase } from '@mui/material'
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import { UserContext } from '../../Contexts/UserContext';
 import { PageContext } from '../../Contexts/PageContext';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -13,12 +13,20 @@ export default function Chat(props) {
     const {setPage} = React.useContext(PageContext)
     const [message, setMessage] = React.useState('')
     const [messages, setMessages] = React.useState([{me:false, msg:'Hello'},{me:true, msg:'Hi'},{me:false, msg:'How are you?'},{me:true, msg:'I am fine'},{me:false,msg:"What's up?"}]);
+    const scrollRef = useRef(null)
 
     const onKeyDown = (event) => {
         if (event.key === 'Enter' || event.code === "NumpadEnter") {
           handleSubmit(event);
         }
       }
+    useEffect(() => {
+        console.log('chat')
+        console.log(scrollRef)
+    if (scrollRef.current) {
+        scrollRef.current.scrollIntoView({ behaviour: "smooth" });
+    }
+    }, [messages]);
 
     const handleChange = (e) => {
         setMessage(e.target.value)
@@ -52,10 +60,11 @@ export default function Chat(props) {
             </Box>
             <Box sx={{
                 display: "flex",
-                justifyContent: "end",
+                mt: 1,
                 flexDirection: "column",
-                height: "80vh",
-                // background: "red",
+                height: "79vh",
+                overflow: "auto",
+                
             }}>
             {messages.map((m, index) => {
                 return (
@@ -63,9 +72,7 @@ export default function Chat(props) {
                 )
             }
             )}
-                {/* <Message message="minim veniam, quis nostrud exercitation ullamco"/>
-                <Message right message="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"/>
-                <Message message="messages list goes here"/> */}
+            <div ref={scrollRef}/>
             </Box>
             <Box sx={{
                 display: "flex",
