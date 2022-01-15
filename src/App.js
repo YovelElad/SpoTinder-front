@@ -30,6 +30,9 @@ const theme = {
   pink: '#f50057',
   red: "#FF2D2D",
   darkPurple: '#7c22b3',
+  palePurple: '#BB34D2',
+  palePink: '#E12CC2'
+  
 };
 
 function App() {
