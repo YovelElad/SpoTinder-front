@@ -8,14 +8,13 @@ import Paper from '@mui/material/Paper';
 import { PageContext } from '../Contexts/PageContext';
 
 export default function NavBar() {
-  const {page, setPage} = React.useContext(PageContext);
-
-  const handleChange = (event, newValue) => {
-    setPage(newValue);
+  const {page, setPage} = React.useContext(PageContext);  
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
   };
   return (
-    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex:"30"}} elevation={30}>
-      <BottomNavigation value={page} onChange={handleChange}>
+    <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex:"30"}} elevation={3}>
+      <BottomNavigation value={page} onChange={handlePageChange}>
         <BottomNavigationAction
           label="Home"
           value="home"

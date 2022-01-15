@@ -5,10 +5,12 @@ import { TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { width } from '@mui/system';
+import ProfileForm from '../ProfileForm/ProfileForm';
 
 
 export default function Profile() {
-    const user = useContext(UserContext);
+    const {user} = useContext(UserContext);
+    
     return (
         <div>
         
@@ -58,21 +60,7 @@ export default function Profile() {
                 </Typography>
             </Box>
         </Box>
-            <Container style={{ justifyContent: "space-between", display: "flex", alignItems: "center", marginBottom: "10px" }}>
-                <h3>Account Settings</h3>
-                <Button>Edit</Button>
-            </Container>
-            <Container component="form" >
-                <TextField fullWidth label="Name"  margin="normal" value={user.name} variant="outlined" />
-                <TextField fullWidth label="Email" margin="normal" value={user.email} type="email" variant="outlined" />
-                <TextField fullWidth label="Password" margin="normal" type="password" variant="outlined" />
-                <TextField fullWidth label="Name"  margin="normal" value={user.name} variant="outlined" />
-                <TextField fullWidth label="Email" margin="normal" value={user.email} type="email" variant="outlined" />
-                <TextField fullWidth label="Password" margin="normal" type="password" variant="outlined" />
-                <TextField fullWidth label="Name"  margin="normal" value={user.name} variant="outlined" />
-                <TextField fullWidth label="Email" margin="normal" value={user.email} type="email" variant="outlined" />
-                <TextField fullWidth label="Password" margin="normal" type="password" variant="outlined" />
-            </Container>
+        <ProfileForm/>
 
         </div>
     )
