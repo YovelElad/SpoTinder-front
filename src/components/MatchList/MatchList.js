@@ -4,9 +4,11 @@ import MatchListItem from '../MatchListItem/MatchListItem'
 import { useContext } from 'react'
 import { UserContext } from '../../Contexts/UserContext'
 import MatchModal from '../MatchModal/MatchModal'
+import { PotentialMatchesContext } from '../../Contexts/PotentialMatchesContext'
 
 export default function MatchList() {
     const {user} = useContext(UserContext);
+    const {potentialMatches} = useContext(PotentialMatchesContext)
     const [open, setOpen] = React.useState(false);
     const [selectedUser, setSelectedUser] = React.useState({});
 
@@ -17,20 +19,14 @@ export default function MatchList() {
     const handleClose = () => {
         setOpen(false);
     }
+    console.log(potentialMatches);
     return (
+    
         <Grid container spacing={2}>
-            <MatchListItem profile={user} onClick={handleOpen}/>
-            <MatchListItem profile={user} onClick={handleOpen}/>
-            <MatchListItem profile={user} onClick={handleOpen}/>
-            <MatchListItem profile={user} onClick={handleOpen}/>
-            <MatchListItem profile={user} onClick={handleOpen}/>
-            <MatchListItem profile={user} onClick={handleOpen}/>
-            <MatchListItem profile={user} onClick={handleOpen}/>
-            <MatchListItem profile={user} onClick={handleOpen}/>
-            <MatchListItem profile={user} onClick={handleOpen}/>
-            <MatchListItem profile={user} onClick={handleOpen}/>
+            {potentialMatches.map(item => {
+               return <MatchListItem profile={item.otherUser} onClick={handleOpen}/>
+            })}
             {open && <MatchModal isOpen={open} handleClose={handleClose} profile={selectedUser}/>}
-            
         </Grid>
     )
 }
