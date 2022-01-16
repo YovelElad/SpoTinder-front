@@ -49,7 +49,7 @@ export default function Chat(props) {
     useEffect(() => {
         socket.on("receive-message", (data) => {
             console.log(data);
-            const newMsg = {msg: data.data, me: false}
+            const newMsg = {msg: data.data.message, me: false}
             setMessages((prev) => [...prev, newMsg]);
 
             return () => socket.off('receive-message');
