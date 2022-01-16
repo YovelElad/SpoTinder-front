@@ -11,6 +11,7 @@ import ItsAMatch from './components/ItsAMatch/ItsAMatch';
 import Matches from './components/Matches/Matches';
 import Chat from './components/Chat/Chat';
 import { SocketProvider } from './Contexts/SocketProvider';
+import { ConversationsProvider } from './Contexts/ConversationsContext';
 
 
 
@@ -28,7 +29,7 @@ const renderSwitch = (page) => {
     case 'its-a-match':
       return <ItsAMatch/>;
     default:
-      return <h1>Home</h1>;
+      return <><NavBar/><Home/><Box sx={{height: "10vh"}}/></>;
   }
 }
 // #b14fed
@@ -46,15 +47,17 @@ const theme = {
 function App() {
   const [page, setPage] = React.useState('home');
   const [user, setUser] = React.useState(ofir);
+
   const updateUser = (user) => {
     setUser(user);
   }
   return (
     <div>
         <SocketProvider id={user._id.$oid}>
+        <ConversationsProvider>      
         <ThemeContext.Provider value={theme}>
         <PageContext.Provider value={{page,setPage}}>
-        <UserContext.Provider value={{user,updateUser}}>
+        <UserContext.Provider value={{user, updateUser}}>
           {/* <NavBar/> */}
           <Box>
             {renderSwitch(page)}
@@ -62,6 +65,7 @@ function App() {
         </UserContext.Provider>
         </PageContext.Provider>
         </ThemeContext.Provider>
+        </ConversationsProvider>
         </SocketProvider>
     </div>
   );

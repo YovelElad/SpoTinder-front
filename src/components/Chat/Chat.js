@@ -7,7 +7,7 @@ import SendIcon from '@mui/icons-material/Send';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Message from '../Message/Message';
 import { useSocket } from '../../Contexts/SocketProvider';
-
+import { useConversations } from '../../Contexts/ConversationsContext';
 
 export default function Chat(props) {
     const {user} = React.useContext(UserContext)
@@ -16,6 +16,8 @@ export default function Chat(props) {
     const [messages, setMessages] = React.useState([{me:false, msg:'Hello'},{me:true, msg:'Hi'},{me:false, msg:'How are you?'},{me:true, msg:'I am fine'},{me:false,msg:"What's up?"}]);
     const scrollRef = useRef(null)
     const socket = useSocket();
+    const { chatWith, setChatWith } = useConversations();
+
 
     const onKeyDown = (event) => {
         if (event.key === 'Enter' || event.code === "NumpadEnter") {
@@ -35,8 +37,13 @@ export default function Chat(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setMessages([...messages, {msg:message, me: true}]);
-        socket.emit("send-message", {message, recipient: user._id.$oid});
+        socket.emit("send-message", {room: chatWith, message: {sender: user._id.$oid, recipient: "test", message: message}});
         setMessage('');
+    }
+
+    const handleBack = () => {
+        setPage("matches");
+        setChatWith(null);
     }
 
     useEffect(() => {
@@ -57,7 +64,7 @@ export default function Chat(props) {
                 justifyContent: "start",
                 alignItems: "center",
             }}>
-                <IconButton onClick={()=>setPage("matches")}>
+                <IconButton onClick={handleBack}>
                     <ArrowBackIcon sx={{color: "black"}}/>
                 </IconButton>
                 <Avatar
