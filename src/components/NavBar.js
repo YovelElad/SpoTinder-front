@@ -30,6 +30,17 @@ export default function NavBar() {
           value="profile"
           icon={<PersonIcon />}
         />
+        <BottomNavigationAction
+          label="SignUp"
+          value="signup"
+          icon={<PersonIcon />}
+        />
+        <BottomNavigationAction
+          label="Login"
+          value="login"
+          icon={<PersonIcon />}
+        />
+
       </BottomNavigation>
     </Paper>
   );
