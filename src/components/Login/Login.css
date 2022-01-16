@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Alef&display=swap');
+
+#signup {
+    position: relative;
+    font-family: "Roboto";
+}
+
+#signup #wrapper,
+.login .wrapper {
+    width: 300px;
+    height: 200px;
+    margin: auto;
+    position: relative;
+
+}
+
+ h1 {
+    position: absolute;
+    top: 108px;
+
+}
+
+#signup form,
+ .login form {
+    position: absolute;
+    top :200px;
+    width: 300px;
+}
+
+#standard-basic{
+    width: 300px;
+}
+
+#standard-select-currency{
+    width: 277px;
+}
+
+#sginUpButton, #SpotifyButton{
+    border-radius: 30px;
+    background-color: #AA3FEC;
+    width:  300px;
+    height: 52px;
+}
+
+
+
+
+.spotifyLogin {
+    width: 100vw;
+    height: 100vh;
+}
+
+
+.spotifyLogin #wrapper {
+    position: relative;
+    margin: 0 auto;
+    width: 300px;
+    height: 600px;
+    justify-content: center;
+}
+
+.logoFrame {
+    width: 144px;
+    height: 144px;
+    background-color: white;
+    border-radius: 80px;
+    position: relative;
+    top: 150px;
+    left: 75px;
+
+}
+
+.logoFrame h3 {
+    position: absolute;
+    margin: 0 auto;
+    top: 70px;
+    font-family: "Dancing Script";
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+    font-weight: lighter;
+}
+
+#SpotifyButton {
+    background-color: white;
+    color: black;
+    position: absolute;
+    bottom: 0;
+}
