@@ -58,27 +58,32 @@ const theme = {
 
 function App() {
   const [page, setPage] = React.useState('home');
-  const [user, setUser] = React.useState(ofir);
+  const [user, setUser] = React.useState(null);
 
   const updateUser = (user) => {
     setUser(user);
   }
   return (
     <div>
+      <UserContext.Provider value={{user, updateUser}}>
+    {
+      user?
         <SocketProvider id={user._id.$oid}>
         <ConversationsProvider>      
         <ThemeContext.Provider value={theme}>
         <PageContext.Provider value={{page,setPage}}>
-        <UserContext.Provider value={{user, updateUser}}>
           {/* <NavBar/> */}
           <Box>
             {renderSwitch(page)}
           </Box>
-        </UserContext.Provider>
         </PageContext.Provider>
         </ThemeContext.Provider>
         </ConversationsProvider>
         </SocketProvider>
+      :
+      <Login/>
+    }
+      </UserContext.Provider>
     </div>
   );
 }
