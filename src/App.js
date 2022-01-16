@@ -14,6 +14,13 @@ import SignUp from './components/Login/SignUp';
 import Matches from './components/Matches/Matches';
 import Chat from './components/Chat/Chat';
 import { PotentialMatchesContext } from './Contexts/PotentialMatchesContext';
+import { SocketProvider } from './Contexts/SocketProvider';
+import { ConversationsProvider } from './Contexts/ConversationsContext';
+
+
+
+// const ofir = { _id: { $oid: "61c5aa15ab0230614f09a5a4" }, email: "ofir@email.com", password: "1234", topArtists: ["Aviv Geffen", "Arik Einstein", "Shlomo Artzi", "Keren Peles", "Static & Ben El", "Taylor Swift", "Adele", "Idan Raichel", "Noa Kirel", "The Beatles", "Queen", "Lady Gaga", "Omer Adam", "Sarit Hadad", "Harel Skaat", "Mergui", "Ed Sheeran", "Justin Bieber", "Arutz Hakibud", "Ivri Lider"], topTracks: ["אפס מאמץ", "Bezos I", "אנג'ל", "רסיסים", "Fancy Like", "Juice", "רגע - הופעה חיה באמפי שוני", "Drunken Sailor", "Love Boy", "Love Is In The Air", "Love On Top", "We Are Never Ever Getting Back Together", "Bad Romance", "לשם", "כמה עוד אפשר", "Overwhelmed (Ryan Mack Remix)", "Watermelon Sugar", "Rocket Man (I Think It's Going To Be A Long, Long Time)", "אהבה קטנה", "הפינאלי", "Go the Distance", "Two Princes", "שלום לך ארץ נהדרת", "מאסטר טל", "December, 1963 (Oh What a Night!)", "עולה עולה", "שביל הבריחה", "רצה הביתה", "שיר הפריחה", "איש הברק", "בחום של תל אביב", "Price Tag", "טמפרטורה", "קשה לי לא להתרגש", "Rolling in the Deep", "זה הרגע לאהוב", "יהלום - Prod. By Triangle", "Drum", "Arabian Nights", "לך תתרגל איתה", "פיז'ו 92", "תן לי", "Shiny", "ואיך שלא", "מסיבה", "אמא", "Take A Bow", "כמו סינדרלה", "גם אני", "עולם משוגע"], gender: "male", interestedIn: ["male", "female"], "__v": { "$numberInt": "0" }, "country": "IL", "id": "61c5aa15ab0230614f09a5a4", image: "https://i.scdn.co/image/ab6775700000ee85106f6ba0ca11f991af308b1c", name: "Ofir Duchovne" };
+// const ofir = { _id: { $oid: "61c5aa15ab0230614f09a5a4" }, email: "ofir@email.com", password: "1234", topArtists: ["Aviv Geffen", "Arik Einstein", "Shlomo Artzi", "Keren Peles", "Static & Ben El", "Taylor Swift", "Adele", "Idan Raichel", "Noa Kirel", "The Beatles", "Queen", "Lady Gaga", "Omer Adam", "Sarit Hadad", "Harel Skaat", "Mergui", "Ed Sheeran", "Justin Bieber", "Arutz Hakibud", "Ivri Lider"], topTracks: ["אפס מאמץ", "Bezos I", "אנג'ל", "רסיסים", "Fancy Like", "Juice", "רגע - הופעה חיה באמפי שוני", "Drunken Sailor", "Love Boy", "Love Is In The Air", "Love On Top", "We Are Never Ever Getting Back Together", "Bad Romance", "לשם", "כמה עוד אפשר", "Overwhelmed (Ryan Mack Remix)", "Watermelon Sugar", "Rocket Man (I Think It's Going To Be A Long, Long Time)", "אהבה קטנה", "הפינאלי", "Go the Distance", "Two Princes", "שלום לך ארץ נהדרת", "מאסטר טל", "December, 1963 (Oh What a Night!)", "עולה עולה", "שביל הבריחה", "רצה הביתה", "שיר הפריחה", "איש הברק", "בחום של תל אביב", "Price Tag", "טמפרטורה", "קשה לי לא להתרגש", "Rolling in the Deep", "זה הרגע לאהוב", "יהלום - Prod. By Triangle", "Drum", "Arabian Nights", "לך תתרגל איתה", "פיז'ו 92", "תן לי", "Shiny", "ואיך שלא", "מסיבה", "אמא", "Take A Bow", "כמו סינדרלה", "גם אני", "עולם משוגע"], gender: "male", interestedIn: ["male", "female"], "__v": { "$numberInt": "0" }, "country": "IL", "id": "61c5aa15ab0230614f09a5a4", image: "https://i.scdn.co/image/ab6775700000ee85106f6ba0ca11f991af308b1c", name: "Ofir Duchovne" };
 
 const renderSwitch = (page) => {
   switch (page) {
@@ -34,11 +41,11 @@ const renderSwitch = (page) => {
     case 'its-a-match':
       return <ItsAMatch />;
     default:
-      return <h1>Home</h1>;
+      return <><NavBar /><Home /><Box sx={{ height: "10vh" }} /></>;
   }
 }
 
-const ofir = { _id: { $oid: "61c5aa15ab0230614f09a5a4" }, email: "ofir@email.com", password: "1234", topArtists: ["Aviv Geffen", "Arik Einstein", "Shlomo Artzi", "Keren Peles", "Static & Ben El", "Taylor Swift", "Adele", "Idan Raichel", "Noa Kirel", "The Beatles", "Queen", "Lady Gaga", "Omer Adam", "Sarit Hadad", "Harel Skaat", "Mergui", "Ed Sheeran", "Justin Bieber", "Arutz Hakibud", "Ivri Lider"], topTracks: ["אפס מאמץ", "Bezos I", "אנג'ל", "רסיסים", "Fancy Like", "Juice", "רגע - הופעה חיה באמפי שוני", "Drunken Sailor", "Love Boy", "Love Is In The Air", "Love On Top", "We Are Never Ever Getting Back Together", "Bad Romance", "לשם", "כמה עוד אפשר", "Overwhelmed (Ryan Mack Remix)", "Watermelon Sugar", "Rocket Man (I Think It's Going To Be A Long, Long Time)", "אהבה קטנה", "הפינאלי", "Go the Distance", "Two Princes", "שלום לך ארץ נהדרת", "מאסטר טל", "December, 1963 (Oh What a Night!)", "עולה עולה", "שביל הבריחה", "רצה הביתה", "שיר הפריחה", "איש הברק", "בחום של תל אביב", "Price Tag", "טמפרטורה", "קשה לי לא להתרגש", "Rolling in the Deep", "זה הרגע לאהוב", "יהלום - Prod. By Triangle", "Drum", "Arabian Nights", "לך תתרגל איתה", "פיז'ו 92", "תן לי", "Shiny", "ואיך שלא", "מסיבה", "אמא", "Take A Bow", "כמו סינדרלה", "גם אני", "עולם משוגע"], gender: "male", interestedIn: ["male", "female"], "__v": { "$numberInt": "0" }, "country": "IL", "id": "61c5aa15ab0230614f09a5a4", image: "https://i.scdn.co/image/ab6775700000ee85106f6ba0ca11f991af308b1c", name: "Ofir Duchovne" };
+// const ofir = { _id: { $oid: "61c5aa15ab0230614f09a5a4" }, email: "ofir@email.com", password: "1234", topArtists: ["Aviv Geffen", "Arik Einstein", "Shlomo Artzi", "Keren Peles", "Static & Ben El", "Taylor Swift", "Adele", "Idan Raichel", "Noa Kirel", "The Beatles", "Queen", "Lady Gaga", "Omer Adam", "Sarit Hadad", "Harel Skaat", "Mergui", "Ed Sheeran", "Justin Bieber", "Arutz Hakibud", "Ivri Lider"], topTracks: ["אפס מאמץ", "Bezos I", "אנג'ל", "רסיסים", "Fancy Like", "Juice", "רגע - הופעה חיה באמפי שוני", "Drunken Sailor", "Love Boy", "Love Is In The Air", "Love On Top", "We Are Never Ever Getting Back Together", "Bad Romance", "לשם", "כמה עוד אפשר", "Overwhelmed (Ryan Mack Remix)", "Watermelon Sugar", "Rocket Man (I Think It's Going To Be A Long, Long Time)", "אהבה קטנה", "הפינאלי", "Go the Distance", "Two Princes", "שלום לך ארץ נהדרת", "מאסטר טל", "December, 1963 (Oh What a Night!)", "עולה עולה", "שביל הבריחה", "רצה הביתה", "שיר הפריחה", "איש הברק", "בחום של תל אביב", "Price Tag", "טמפרטורה", "קשה לי לא להתרגש", "Rolling in the Deep", "זה הרגע לאהוב", "יהלום - Prod. By Triangle", "Drum", "Arabian Nights", "לך תתרגל איתה", "פיז'ו 92", "תן לי", "Shiny", "ואיך שלא", "מסיבה", "אמא", "Take A Bow", "כמו סינדרלה", "גם אני", "עולם משוגע"], gender: "male", interestedIn: ["male", "female"], "__v": { "$numberInt": "0" }, "country": "IL", "id": "61c5aa15ab0230614f09a5a4", image: "https://i.scdn.co/image/ab6775700000ee85106f6ba0ca11f991af308b1c", name: "Ofir Duchovne" };
 // const ofir = { _id: { $oid: "61c5aa15ab0230614f09a5a4" }, email: "ofir@email.com", password: "1234", topArtists: ["Aviv Geffen", "Arik Einstein", "Shlomo Artzi", "Keren Peles", "Static & Ben El", "Taylor Swift", "Adele", "Idan Raichel", "Noa Kirel", "The Beatles", "Queen", "Lady Gaga", "Omer Adam", "Sarit Hadad", "Harel Skaat", "Mergui", "Ed Sheeran", "Justin Bieber", "Arutz Hakibud", "Ivri Lider"], topTracks: ["אפס מאמץ", "Bezos I", "אנג'ל", "רסיסים", "Fancy Like", "Juice", "רגע - הופעה חיה באמפי שוני", "Drunken Sailor", "Love Boy", "Love Is In The Air", "Love On Top", "We Are Never Ever Getting Back Together", "Bad Romance", "לשם", "כמה עוד אפשר", "Overwhelmed (Ryan Mack Remix)", "Watermelon Sugar", "Rocket Man (I Think It's Going To Be A Long, Long Time)", "אהבה קטנה", "הפינאלי", "Go the Distance", "Two Princes", "שלום לך ארץ נהדרת", "מאסטר טל", "December, 1963 (Oh What a Night!)", "עולה עולה", "שביל הבריחה", "רצה הביתה", "שיר הפריחה", "איש הברק", "בחום של תל אביב", "Price Tag", "טמפרטורה", "קשה לי לא להתרגש", "Rolling in the Deep", "זה הרגע לאהוב", "יהלום - Prod. By Triangle", "Drum", "Arabian Nights", "לך תתרגל איתה", "פיז'ו 92", "תן לי", "Shiny", "ואיך שלא", "מסיבה", "אמא", "Take A Bow", "כמו סינדרלה", "גם אני", "עולם משוגע"], gender: "male", interestedIn: ["male", "female"], "__v": { "$numberInt": "0" }, "country": "IL", "id": "61c5aa15ab0230614f09a5a4", image: "https://i.scdn.co/image/ab6775700000ee85106f6ba0ca11f991af308b1c", name: "Ofir Duchovne" };
 const Yovel = {
   _id: "61e41635e66be9fb78ea343a",
@@ -188,20 +195,20 @@ function App() {
       potentialMatchesResponse = await fetch("https://spotinder-shenkar.herokuapp.com/users/61e41635e66be9fb78ea343a/matches");
       if (potentialMatchesResponse.ok) {
         potentialMatchessData = await potentialMatchesResponse.json();
-        const temp = await Promise.all( potentialMatchessData.data.map(async item => {
-          const otherUserID = user._id== item.firstUser ? item.secondUser : item.firstUser;
+        const temp = await Promise.all(potentialMatchessData.data.map(async item => {
+          const otherUserID = user._id == item.firstUser ? item.secondUser : item.firstUser;
           let otherPersonData;
           try {
-            
+
             const otherUserResponse = await fetch(`https://spotinder-shenkar.herokuapp.com/users/${otherUserID}`);
             if (otherUserResponse.ok) {
               otherPersonData = await otherUserResponse.json();
               otherPersonData = otherPersonData.data;
-              
+
             }
 
           } catch {
-            
+
           }
           return {
             thisUserLiked: otherUserID == item.firstUser ? item.secondUserLiked : item.firstUserLiked,
@@ -216,7 +223,7 @@ function App() {
         )
         console.log(temp);
         setPotetialMatches(temp);
-        
+
       } else {
         console.log("Error while fetching data from server");
       }
@@ -247,19 +254,22 @@ function App() {
 
   return (
     <div>
-      <ThemeContext.Provider value={theme}>
-        <PageContext.Provider value={{ page, setPage }}>
-          <NavBar />
-          <UserContext.Provider value={{ user, updateUser }}>
-            <PotentialMatchesContext.Provider value={{ potentialMatches, setPotetialMatches }}>
-              <Box>
-                {renderSwitch(page)}
-                <Box sx={{ height: "10vh" }} />
-              </Box>
-            </PotentialMatchesContext.Provider>
-          </UserContext.Provider>
-        </PageContext.Provider>
-      </ThemeContext.Provider>
+      <SocketProvider id={user._id.$oid}>
+        <ConversationsProvider>
+          <ThemeContext.Provider value={theme}>
+            <PageContext.Provider value={{ page, setPage }}>
+              <UserContext.Provider value={{ user, updateUser }}>
+                <PotentialMatchesContext.Provider value={{ potentialMatches, setPotetialMatches }}>
+                  {/* <NavBar/> */}
+                  <Box>
+                    {renderSwitch(page)}
+                  </Box>
+                </PotentialMatchesContext.Provider>
+              </UserContext.Provider>
+            </PageContext.Provider>
+          </ThemeContext.Provider>
+        </ConversationsProvider>
+      </SocketProvider>
     </div>
   );
 }
