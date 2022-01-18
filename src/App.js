@@ -146,12 +146,6 @@ function App() {
   // console.log(typeof (potentialMatches));
   const [users, setUsers] = React.useState([]);
 
-  // useEffect(() => {
-  //   return () => {
-  //     fetchUser();
-  //   }
-  // }, []);
-
   const updateUser = (user) => {
     setUser(user);
   }

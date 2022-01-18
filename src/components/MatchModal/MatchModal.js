@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ThemeContext } from '../../Contexts/ThemeContext';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import axios from 'axios';
+import { PotentialMatchesContext } from '../../Contexts/PotentialMatchesProvider'
 
 
 
@@ -31,79 +31,38 @@ const style = {
 
 export default function MatchModal(props) {
     const theme = useContext(ThemeContext);
-    // console.log(props.profile._id);
-
+    const {updateMatch} = useContext(PotentialMatchesContext)
+ 
     const handleLike = async (e) => {
         e.preventDefault();
         console.log("thisUser id -> ", props.thisUser._id);
         console.log("match id -> ", props.match.id);
-        let matchData;
-        let matchResponse;
-        const fetchCall = "https://spotinder-shenkar.herokuapp.com/users/" + props.thisUser._id + "/matches/" + props.match.id;
-        try {
-            matchResponse = await fetch(fetchCall);
-            if (matchResponse.ok) {
-                matchData = await matchResponse.json();
-                matchData = matchData.data;
-                if (props.match.thisUserIs == "first") {
-                    matchData.firstUserLiked = true
-                } else {
-                    matchData.secondUserLiked = true
-                }
-                
-                let updateMatchResponse;
-                let updateMatchData;
-                const option = {
-                    method: 'PUT',
-                    body: JSON.stringify({
-                        firstUserLiked: matchData.firstUserLiked,
-                        secondUserLiked: matchData.secondUserLiked
-                    })
-
-                }
-                try {
-                    updateMatchResponse = await  axios.put(fetchCall,matchData); //fetch(fetchCall, option);
-                    if (updateMatchResponse.data.status) {
-                    } else {
-                        console.log(updateMatchResponse);
-                    }
-                } catch (err) {
-                    console.log("catch:", err);
-                }
-
-            } else {
-                console.log("else");
-            }
-        } catch (err) {
-            console.log("catch:", err);
+        console.log("I am: ", props.match.whoAmI)
+        const updateData = {
+            firstUserLiked: props.match.whoAmI === "first" ? true : props.match.otherUserLiked,
+            secondUserLiked: props.match.whoAmI === "second" ? true : props.match.otherUserLiked,
         }
-
-
-
-
-
-
-
-        //"https://spotinder-shenkar.herokuapp.com/users/61c251968f8363939c98f480/matches/61e4164fe66be9fb78ea3441"
-        //`https://spotindshenkar.herokuapp.com/users/${props.thisUser._id}/matches/${props.match.id}`
+        console.log(updateData);
+        // updateMatch(props.thisUser._id, props.match.id, matchData);
+        // let matchData;
+        // let matchResponse;
         // const fetchCall = "https://spotinder-shenkar.herokuapp.com/users/" + props.thisUser._id + "/matches/" + props.match.id;
         // try {
-        //     // matchResponse = await fetch(`https://spotindshenkar.herokuapp.com/users/${props.thisUser._id}/matches/${props.match.id}`, {
-        //     matchResponse = await fetch(fetchCall, {
-        //         method: 'PUT',
-        //         body: dataToUpdate
-        //     })
+        //     matchResponse = await fetch(fetchCall);
         //     if (matchResponse.ok) {
-        //         alert("You liked " + props.profile.name + ":)");
         //         matchData = await matchResponse.json();
         //         matchData = matchData.data;
-        //         console.log(matchData);
+        //         if (props.match.thisUserIs == "first") {
+        //             matchData.firstUserLiked = true
+        //         } else {
+        //             matchData.secondUserLiked = true
+        //         }
+        //         updateMatch(props.thisUser._id, props.match.id, matchData);
         //     }
-        //     else {
-        //         alert("Error");
-        //     }
+
+                
         // } catch (err) {
-        //     console.log("ERROR:", err);
+        //     console.log("catch:", err);
         // }
 
     }

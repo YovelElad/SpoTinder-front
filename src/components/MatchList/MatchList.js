@@ -17,12 +17,16 @@ export default function MatchList() {
         // console.log(match);
         setSelectedUser(user);
         setSelectedMatch(match);
+        console.log(user);
+        console.log(match);
         setOpen(true);
     }
     const handleClose = () => {
         setOpen(false);
     }
     // console.log(potentialMatches);
+
+  
     return (
     
         <Grid container spacing={2}>
