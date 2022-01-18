@@ -4,12 +4,13 @@ import React from 'react'
 import { ThemeContext } from '../../Contexts/ThemeContext';
 import { UserContext } from '../../Contexts/UserContext';
 import { PageContext } from '../../Contexts/PageContext';
+import { usePotentialMatches } from '../../Contexts/PotentialMatchesProvider';
 
 export default function ItsAMatch(props) {
     const theme = React.useContext(ThemeContext);
     const {user} = React.useContext(UserContext);
     const {setPage} = React.useContext(PageContext);
-
+    const {selectedMatch} = usePotentialMatches()
     const FilledButton = styled(Button)({
         background:'linear-gradient(180deg, #BB34D2 0%, #E12CC2 100%)',
         color: "white",
@@ -54,7 +55,7 @@ export default function ItsAMatch(props) {
                 textAlign: "center",
                 fontFamily: "Roboto Thin",
             }}>
-                {props.name} Mary likes you too
+                {selectedMatch.otherUser.name.split(' ')[0]} likes you too
             </Typography>
             <Box mt={2} style={{
                 display: "flex",
@@ -73,7 +74,7 @@ export default function ItsAMatch(props) {
             />
             <Avatar
                 alt="Remy Sharp"
-                src={user.image}
+                src={selectedMatch.otherUser.image}
                 sx={{ 
                     width: 150, 
                     height: 150,
