@@ -6,7 +6,7 @@ import { Box, Grid, Typography } from '@mui/material';
 export default function MatchListItem(props) {
 
     const onClick = () => {
-        props.onClick(props.profile);
+        props.onClick(props.profile, props.match);
     }
     return (
         <Grid item xs={6} sm={4}>
@@ -38,7 +38,7 @@ export default function MatchListItem(props) {
                             {props.profile.name}
                         </Typography>
                         <Typography variant="subtitle2" gutterBottom component="div">
-                            Score: 10%
+                            {props.match.score*100}%
                         </Typography>
                     </Box>
                 </Box>
