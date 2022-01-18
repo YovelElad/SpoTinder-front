@@ -12,6 +12,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ThemeContext } from '../../Contexts/ThemeContext';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import axios from 'axios';
+
 
 
 const style = {
@@ -48,21 +50,22 @@ export default function MatchModal(props) {
                 } else {
                     matchData.secondUserLiked = true
                 }
-                // console.log(matchData);
+                
                 let updateMatchResponse;
                 let updateMatchData;
                 const option = {
                     method: 'PUT',
-                    body: JSON.stringify(matchData)
+                    body: JSON.stringify({
+                        firstUserLiked: matchData.firstUserLiked,
+                        secondUserLiked: matchData.secondUserLiked
+                    })
 
                 }
                 try {
-                    updateMatchResponse = await fetch(fetchCall, option);
-                    if (updateMatchResponse.ok) {
-                        updateMatchData = await updateMatchResponse.json();
-                        updateMatchData = updateMatchData;
-                        console.log(matchData);
-                        console.log(updateMatchData);
+                    updateMatchResponse = await  axios.put(fetchCall,matchData); //fetch(fetchCall, option);
+                    if (updateMatchResponse.data.status) {
+                    } else {
+                        console.log(updateMatchResponse);
                     }
                 } catch (err) {
                     console.log("catch:", err);
