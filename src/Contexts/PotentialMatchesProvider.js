@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect } from "react";
 import { UserContext } from '../Contexts/UserContext'
 import axios from 'axios';
+import { ContactSupport } from "@mui/icons-material";
+import { PageContext } from "./PageContext";
 
 export const PotentialMatchesContext = createContext(null);
 
@@ -13,10 +15,20 @@ export function usePotentialMatches() {
 export function PotentialMatchesProvider({ children }) {
     const { user } = useContext(UserContext);
     const [potentialMatches, setPotetialMatches] = React.useState([]);
+    const [selectedMatch, setSelectedMatch] = React.useState({});
+    const {setPage} = React.useContext(PageContext)
+
 
     useEffect(() => {
         fetchPotentialMatchessData();
     }, []);
+
+    useEffect(() => {
+        if(selectedMatch && selectedMatch.thisUserLiked && selectedMatch.otherUserLiked) {
+            setPage('its-a-match')
+        }
+    }, [selectedMatch]);
+
 
     const updateMatch = async function(userID, matchID, updateData) {
         const updateCall = "https://spotinder-shenkar.herokuapp.com/users/" + userID + "/matches/" + matchID;
@@ -24,7 +36,7 @@ export function PotentialMatchesProvider({ children }) {
         if(match) {
             const response = await axios.put(updateCall,updateData);
             if(response.data.status) {
-                const updatedMatch = {...match, ...updateData};
+                const updatedMatch = {...match, thisUserLiked: !match.thisUserLiked};                
                 const updatedPotentialMatches = potentialMatches.map(m => m.id == matchID ? updatedMatch : m);
                 setPotetialMatches(updatedPotentialMatches);
             } else {
@@ -84,7 +96,7 @@ export function PotentialMatchesProvider({ children }) {
     }
 
     return (
-        <PotentialMatchesContext.Provider value={{ potentialMatches, setPotetialMatches, updateMatch }}>
+        <PotentialMatchesContext.Provider value={{ potentialMatches, setPotetialMatches, updateMatch, selectedMatch, setSelectedMatch }}>
             {children}
         </PotentialMatchesContext.Provider>
     )

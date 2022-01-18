@@ -38,7 +38,7 @@ export default function MatchListItem(props) {
                             {props.profile.name}
                         </Typography>
                         <Typography variant="subtitle2" gutterBottom component="div">
-                            {props.match.score*100}%
+                            Score: {Math.round(props.match.score*100)}%
                         </Typography>
                     </Box>
                 </Box>
