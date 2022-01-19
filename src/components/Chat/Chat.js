@@ -13,10 +13,11 @@ export default function Chat(props) {
     const {user} = React.useContext(UserContext)
     const {setPage} = React.useContext(PageContext)
     const [message, setMessage] = React.useState('')
-    const [messages, setMessages] = React.useState([{me:false, msg:'Hello'},{me:true, msg:'Hi'},{me:false, msg:'How are you?'},{me:true, msg:'I am fine'},{me:false,msg:"What's up?"}]);
+    // const [messages, setMessages] = React.useState([{me:false, msg:'Hello'},{me:true, msg:'Hi'},{me:false, msg:'How are you?'},{me:true, msg:'I am fine'},{me:false,msg:"What's up?"}]);
     const scrollRef = useRef(null)
     const socket = useSocket();
     const { chatWith, setChatWith } = useConversations();
+    const [messages, setMessages] = React.useState(chatWith.messages);
 
 
     const onKeyDown = (event) => {
@@ -36,8 +37,16 @@ export default function Chat(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setMessages([...messages, {msg:message, me: true}]);
-        socket.emit("send-message", {room: chatWith.id, message: {sender: user._id.$oid, recipient: "test", message: message}});
+        const newMessage = {
+            message: message,
+            sender: user.id,
+            receiver: chatWith.otherUser._id,
+            date: new Date()
+        }
+
+        setMessages([...messages, newMessage]);
+        socket.emit("send-message", {room: chatWith.id, message: newMessage});
+
         setMessage('');
     }
 
@@ -49,8 +58,8 @@ export default function Chat(props) {
     useEffect(() => {
         socket.on("receive-message", (data) => {
             console.log(data);
-            const newMsg = {msg: data.data.message, me: false}
-            setMessages((prev) => [...prev, newMsg]);
+            // const newMsg = {msg: data.data.message, me: false}
+            setMessages((prev) => [...prev, data]);
 
             return () => socket.off('receive-message');
         });
@@ -86,7 +95,7 @@ export default function Chat(props) {
             }}>
             {messages.map((m, index) => {
                 return (
-                    <Message key={index} message={m.msg} right={m.me}/>
+                    <Message key={index} message={m.message} right={m.sender == user.id}/>
                 )
             }
             )}
