@@ -174,8 +174,8 @@ function App() {
 
   return (
     <div>
-      {/* <SocketProvider id={user._id}> */}
-        {/* <ConversationsProvider> */}
+      <SocketProvider id={user._id}>
+        <ConversationsProvider>
           <ThemeContext.Provider value={theme}>
             <PageContext.Provider value={{ page, setPage }}>
               <UserContext.Provider value={{ user, updateUser }}>
@@ -188,8 +188,8 @@ function App() {
               </UserContext.Provider>
             </PageContext.Provider>
           </ThemeContext.Provider>
-        {/* </ConversationsProvider> */}
-      {/* </SocketProvider> */}
+        </ConversationsProvider>
+      </SocketProvider>
     </div>
   );
 }

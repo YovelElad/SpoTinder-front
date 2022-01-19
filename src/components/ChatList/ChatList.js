@@ -5,12 +5,16 @@ import { PageContext } from '../../Contexts/PageContext';
 import ChatListItem from '../ChatListItem/ChatListItem';
 import { useSocket } from '../../Contexts/SocketProvider';
 import { ConversationsContext, useConversations } from '../../Contexts/ConversationsContext';
+import { usePotentialMatches } from '../../Contexts/PotentialMatchesProvider'
+
 
  
 export default function ChatList() {
     const {user} = React.useContext(UserContext)
     const {setPage} = React.useContext(PageContext)
     const {chatWith, setChatWith} = useConversations();
+    const {potentialMatches} = usePotentialMatches();
+
 
 
     const handleClick = (id) => {
@@ -20,16 +24,10 @@ export default function ChatList() {
 
     return (
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            <ChatListItem onClick={()=>handleClick("61c5aa37ab0230614f09a5ac")} image={user.image} name={user.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing consectetur adipiscing consectetur adipiscing consectetur adipiscing elit, sed do eiusmod "}/>
-            <ChatListItem onClick={()=>handleClick("61c5aa37ab0230614f09a5af")} image={user.image} name={user.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "}/>
-            <ChatListItem onClick={()=>handleClick("61c5aa37ab0230614f09a5b2")} image={user.image} name={user.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "}/>
-            <ChatListItem onClick={()=>handleClick(user._id.$oid)} image={user.image} name={user.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "}/>
-            <ChatListItem onClick={()=>handleClick(user._id.$oid)} image={user.image} name={user.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "}/>
-            <ChatListItem onClick={()=>handleClick(user._id.$oid)} image={user.image} name={user.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "}/>
-            <ChatListItem onClick={()=>handleClick(user._id.$oid)} image={user.image} name={user.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "}/>
-            <ChatListItem onClick={()=>handleClick(user._id.$oid)} image={user.image} name={user.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "}/>
-            <ChatListItem onClick={()=>handleClick(user._id.$oid)} image={user.image} name={user.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "}/>
-            <ChatListItem onClick={()=>handleClick(user._id.$oid)} image={user.image} name={user.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "}/>
+            {potentialMatches.map((match,index) => {
+                {/* if(match.thisUserLiked && match.otherUserLiked) */}
+                return <ChatListItem key={index} onClick={()=>handleClick(match.id)} image={match.otherUser.image} name={match.otherUser.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "} />;
+            })}
         </List>
     )
 }
