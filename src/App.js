@@ -156,20 +156,13 @@ function App() {
       if(userResponse.ok){
         userData = await userResponse.json();
         userData = userData.data;
-        console.log(userData);
         setUser(userData);
-        console.log(user);
       }
     } catch {
 
     }
 
   }
-
-
-
-
-
   return (
     <div>
       <UserContext.Provider value={{user, updateUser}}>
@@ -179,10 +172,12 @@ function App() {
         <ConversationsProvider>      
         <ThemeContext.Provider value={theme}>
         <PageContext.Provider value={{page,setPage}}>
+        <PotentialMatchesProvider>
           {/* <NavBar/> */}
           <Box>
             {renderSwitch(page)}
           </Box>
+          </PotentialMatchesProvider>
         </PageContext.Provider>
         </ThemeContext.Provider>
         </ConversationsProvider>

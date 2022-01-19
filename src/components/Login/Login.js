@@ -3,6 +3,7 @@ import Input from "./Input";
 import { Button } from '@mui/material';
 import axios from 'axios';
 import { UserContext } from '../../Contexts/UserContext';
+import AuthService from "../../services/auth.service";
 
 
 
@@ -21,23 +22,23 @@ export default function Login() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(email, password);
-        setEmail('');
-        setPassword('');
-        axios.post('http://localhost:8888/login', {
-            email: email,
-            password: password
-        }).then(res => {
-            if(res.data.status) {
-                console.log(res.data.data);
-                updateUser(res.data.data);
+        AuthService.login(email, password).then(res => {
+            if(res.status) {
+                updateUser(res.user);
             } else {
-                console.log(res.data.message);
+                console.log(res);
             }
         }).catch(err => {
             console.log(err);
-        })
-
+        });
+        // .then(res => {
+        // }).catch(err => {
+        //     console.log("err");
+        //     console.log(err);
+        // })
+        
+        setEmail('');
+        setPassword('');
     }
 
     return (
@@ -58,4 +59,3 @@ export default function Login() {
         </div>
     )
 }
- 

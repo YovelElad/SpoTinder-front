@@ -3,6 +3,7 @@ import { UserContext } from '../Contexts/UserContext'
 import axios from 'axios';
 import { ContactSupport } from "@mui/icons-material";
 import { PageContext } from "./PageContext";
+import userService from "../services/user.service";
 
 
 export const PotentialMatchesContext = createContext(null);
@@ -33,10 +34,9 @@ export function PotentialMatchesProvider({ children }) {
 
 
     const updateMatch = async function(userID, matchID, updateData) {
-        const updateCall = "https://spotinder-shenkar.herokuapp.com/users/" + userID + "/matches/" + matchID;
         const match = potentialMatches.find(m => m.id == matchID);
         if(match) {
-            const response = await axios.put(updateCall,updateData);
+            const response = await userService.updateMatch(userID, matchID, updateData);
             if(response.data.status) {
                 const updatedMatch = {...match, thisUserLiked: !match.thisUserLiked};                
                 const updatedPotentialMatches = potentialMatches.map(m => m.id == matchID ? updatedMatch : m);
@@ -51,26 +51,22 @@ export function PotentialMatchesProvider({ children }) {
     }
 
     const fetchPotentialMatchessData = async () => {
-        let potentialMatchessData = [];
         let potentialMatchesResponse;
         try {
-            potentialMatchesResponse = await fetch("https://spotinder-shenkar.herokuapp.com/users/61e41635e66be9fb78ea343a/matches");
-            if (potentialMatchesResponse.ok) {
-                potentialMatchessData = await potentialMatchesResponse.json();
-                const temp = await Promise.all(potentialMatchessData.data.map(async item => {
+            potentialMatchesResponse = await userService.getPotentialMatches(user.id);
+            if (potentialMatchesResponse.data.status) {
+                const temp = await Promise.all(potentialMatchesResponse.data.data.map(async item => {
                     const otherUserID = user._id == item.firstUser ? item.secondUser : item.firstUser;
                     let otherPersonData;
                     try {
-
-                        const otherUserResponse = await fetch(`https://spotinder-shenkar.herokuapp.com/users/${otherUserID}`);
-                        if (otherUserResponse.ok) {
-                            otherPersonData = await otherUserResponse.json();
+                        const otherUserResponse = await userService.getUser(otherUserID);
+                        if (otherUserResponse.data.status) {
+                            otherPersonData = otherUserResponse.data;
                             otherPersonData = otherPersonData.data;
-
                         }
 
                     } catch {
-
+                        /////////////////////////////////////////////////////
                     }
                     return {
                         id: item._id,
