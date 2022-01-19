@@ -6,6 +6,7 @@ import ChatListItem from '../ChatListItem/ChatListItem';
 import { useSocket } from '../../Contexts/SocketProvider';
 import { ConversationsContext, useConversations } from '../../Contexts/ConversationsContext';
 import { usePotentialMatches } from '../../Contexts/PotentialMatchesProvider'
+import { Skeleton, ListItem, ListItemText } from '@mui/material';
 
 
  
@@ -24,10 +25,36 @@ export default function ChatList() {
 
     return (
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            {potentialMatches.map((match,index) => {
-                {/* if(match.thisUserLiked && match.otherUserLiked) */}
+            {
+                potentialMatches.length > 0 ?
+                potentialMatches.map((match,index) => {
                 return <ChatListItem key={index} onClick={()=>handleClick(match)} image={match.otherUser.image} name={match.otherUser.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "} />;
-            })}
+                })
+                :
+                Array.apply(null, { length: 8 }).map((item, index) => {
+                return (<ListItem alignItems="flex-start" >
+                    <Skeleton variant="circular" width={61} height={61} />
+                    <ListItemText
+                    primary={<Skeleton
+                                animation="wave"
+                                height={12}
+                                width="80%"
+                                style={{ marginBottom: 6, marginTop: 8, marginLeft: 12 }}
+                                />  }
+                    secondary={
+                        <React.Fragment >
+                        <Skeleton
+                            animation="wave"
+                            height={12}
+                            width="60%"
+                            style={{ marginBottom: 6,marginLeft: 12 }}
+                            />
+                        </React.Fragment>}
+                    />
+                </ListItem>)
+                })
+
+            }
         </List>
     )
 }
