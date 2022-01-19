@@ -142,15 +142,7 @@ const theme = {
 
 function App() {
   const [page, setPage] = React.useState('home');
-  const [user, setUser] = React.useState(Yovel);
-  // console.log(typeof (potentialMatches));
-  const [users, setUsers] = React.useState([]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     fetchUser();
-  //   }
-  // }, []);
+  const [user, setUser] = React.useState(null);
 
   const updateUser = (user) => {
     setUser(user);
@@ -164,38 +156,36 @@ function App() {
       if(userResponse.ok){
         userData = await userResponse.json();
         userData = userData.data;
-        console.log(userData);
         setUser(userData);
-        console.log(user);
       }
     } catch {
 
     }
 
   }
-
-
-
-
-
   return (
     <div>
-      <SocketProvider id={user._id}>
-        <ConversationsProvider>
-          <ThemeContext.Provider value={theme}>
-            <PageContext.Provider value={{ page, setPage }}>
-              <UserContext.Provider value={{ user, updateUser }}>
-                <PotentialMatchesProvider>
-                  {/* <NavBar/> */}
-                  <Box>
-                    {renderSwitch(page)}
-                  </Box>
-                </PotentialMatchesProvider>
-              </UserContext.Provider>
-            </PageContext.Provider>
-          </ThemeContext.Provider>
+      <UserContext.Provider value={{user, updateUser}}>
+    {
+      user?
+        <SocketProvider id={user._id.$oid}>
+        <ConversationsProvider>      
+        <ThemeContext.Provider value={theme}>
+        <PageContext.Provider value={{page,setPage}}>
+        <PotentialMatchesProvider>
+          {/* <NavBar/> */}
+          <Box>
+            {renderSwitch(page)}
+          </Box>
+          </PotentialMatchesProvider>
+        </PageContext.Provider>
+        </ThemeContext.Provider>
         </ConversationsProvider>
-      </SocketProvider>
+        </SocketProvider>
+      :
+      <Login/>
+    }
+      </UserContext.Provider>
     </div>
   );
 }

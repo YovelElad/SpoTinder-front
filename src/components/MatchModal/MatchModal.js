@@ -12,7 +12,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ThemeContext } from '../../Contexts/ThemeContext';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import axios from 'axios';
+import { PotentialMatchesContext } from '../../Contexts/PotentialMatchesProvider'
+import { PageContext } from '../../Contexts/PageContext';
 
 
 
@@ -31,83 +32,22 @@ const style = {
 
 export default function MatchModal(props) {
     const theme = useContext(ThemeContext);
-    // console.log(props.profile._id);
-
+    const {updateMatch} = useContext(PotentialMatchesContext)
+    const {setPage} = useContext(PageContext)
+ 
     const handleLike = async (e) => {
+        console.log(props.match.id)
         e.preventDefault();
-        console.log("thisUser id -> ", props.thisUser._id);
-        console.log("match id -> ", props.match.id);
-        let matchData;
-        let matchResponse;
-        const fetchCall = "https://spotinder-shenkar.herokuapp.com/users/" + props.thisUser._id + "/matches/" + props.match.id;
+        const updateData = props.match.whoAmI === "first" ? {firstUserLiked: !(props.match.thisUserLiked)} : {secondUserLiked:!(props.match.thisUserLiked)}
         try {
-            matchResponse = await fetch(fetchCall);
-            if (matchResponse.ok) {
-                matchData = await matchResponse.json();
-                matchData = matchData.data;
-                if (props.match.thisUserIs == "first") {
-                    matchData.firstUserLiked = true
-                } else {
-                    matchData.secondUserLiked = true
-                }
-                
-                let updateMatchResponse;
-                let updateMatchData;
-                const option = {
-                    method: 'PUT',
-                    body: JSON.stringify({
-                        firstUserLiked: matchData.firstUserLiked,
-                        secondUserLiked: matchData.secondUserLiked
-                    })
-
-                }
-                try {
-                    updateMatchResponse = await  axios.put(fetchCall,matchData); //fetch(fetchCall, option);
-                    if (updateMatchResponse.data.status) {
-                    } else {
-                        console.log(updateMatchResponse);
-                    }
-                } catch (err) {
-                    console.log("catch:", err);
-                }
-
-            } else {
-                console.log("else");
-            }
-        } catch (err) {
-            console.log("catch:", err);
+            updateMatch(props.thisUser._id, props.match.id, updateData);
+        } catch (error) {
+            console.log(error);
         }
-
-
-
-
-
-
-
-        //"https://spotinder-shenkar.herokuapp.com/users/61c251968f8363939c98f480/matches/61e4164fe66be9fb78ea3441"
-        //`https://spotindshenkar.herokuapp.com/users/${props.thisUser._id}/matches/${props.match.id}`
-        // const fetchCall = "https://spotinder-shenkar.herokuapp.com/users/" + props.thisUser._id + "/matches/" + props.match.id;
-        // try {
-        //     // matchResponse = await fetch(`https://spotindshenkar.herokuapp.com/users/${props.thisUser._id}/matches/${props.match.id}`, {
-        //     matchResponse = await fetch(fetchCall, {
-        //         method: 'PUT',
-        //         body: dataToUpdate
-        //     })
-        //     if (matchResponse.ok) {
-        //         alert("You liked " + props.profile.name + ":)");
-        //         matchData = await matchResponse.json();
-        //         matchData = matchData.data;
-        //         console.log(matchData);
-        //     }
-        //     else {
-        //         alert("Error");
-        //     }
-        // } catch (err) {
-        //     console.log("ERROR:", err);
-        // }
-
+        if(updateData.firstUserLiked && updateData.secondUserLiked) {
+            setPage('its-a-match')
+        }
     }
-
 
     return (
         <Modal
@@ -123,7 +63,7 @@ export default function MatchModal(props) {
                     </Typography>
                     <img src={props.profile.image} alt="profile" style={{ width: "100%", height: "auto", borderRadius: "10px" }} />
                     <Typography id="modal-modal-description" variant="h6" sx={{ mt: 2, mb: 1 }}>
-                        Match Score: {props.profile.matchScore}%
+                        Match Score: {Math.round(props.match.score*100)}%
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2, mb: 1 }}>
                         Top 5 Mutal Artists
@@ -139,7 +79,7 @@ export default function MatchModal(props) {
                         Top 5 Mutal Traks
                     </Typography>
                     {props.profile.topTracks.slice(0, 5).map((track, index) => {
-                        return <Chip key={`t${index}`} label={track} variant="outlined" sx={{ marginLeft: "5px" }} />
+                        return <Chip key={`t${index}`} label={track} variant="outlined" sx={{ marginLeft: "5px", mt:1 }} />
                     })}
                     <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }} >
                         <Stack direction="row" spacing={5} >
@@ -147,7 +87,7 @@ export default function MatchModal(props) {
                                 <CloseIcon sx={{ color: "white" }} />
                             </IconButton>
                             <IconButton aria-label="delete" sx={{ background: theme.purple }} onClick={handleLike}>
-                                {props.profile.isFavorite ? <FavoriteIcon sx={{ color: "white" }} /> : <FavoriteBorderIcon sx={{ color: "white" }} />}
+                                {props.match.thisUserLiked ? <FavoriteIcon sx={{ color: "white" }} /> : <FavoriteBorderIcon sx={{ color: "white" }} />}
                             </IconButton>
                         </Stack>
                     </Box>

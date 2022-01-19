@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Item, Button } from '@mui/material'
+import { Grid, Skeleton } from '@mui/material'
 import MatchListItem from '../MatchListItem/MatchListItem'
 import { useContext } from 'react'
 import { UserContext } from '../../Contexts/UserContext'
@@ -8,10 +8,10 @@ import { PotentialMatchesContext } from '../../Contexts/PotentialMatchesProvider
 
 export default function MatchList() {
     const {user} = useContext(UserContext);
-    const {potentialMatches} = useContext(PotentialMatchesContext)
+    const {potentialMatches} = useContext(PotentialMatchesContext);
     const [open, setOpen] = React.useState(false);
     const [selectedUser, setSelectedUser] = React.useState({});
-    const [selectedMatch, setSelectedMatch] = React.useState({});
+    const {selectedMatch, setSelectedMatch} = useContext(PotentialMatchesContext);
 
     const handleOpen = (user, match) => {
         // console.log(match);
@@ -22,13 +22,45 @@ export default function MatchList() {
     const handleClose = () => {
         setOpen(false);
     }
-    // console.log(potentialMatches);
+
+    React.useEffect(() => {
+        if(selectedMatch) {
+            const newSelectedMatch = potentialMatches.find(match => match.id == selectedMatch.id);
+            setSelectedMatch(newSelectedMatch);
+        }
+    }, [potentialMatches])
+        
+
+  
     return (
     
         <Grid container spacing={2}>
-            {potentialMatches.map(item => {
-               return <MatchListItem match={item} thisUser={user} profile={item.otherUser} onClick={handleOpen}/>
-            })}
+            {potentialMatches.length > 0 ? 
+            potentialMatches.map((item,index) => {
+               return <MatchListItem key={index} match={item} thisUser={user} profile={item.otherUser} onClick={handleOpen}/>
+            })
+            :
+            <>
+            <Grid item xs={6} sm={4}>
+                <Skeleton sx={{ height: "180px", width: "160px", borderRadius: "10px" }} animation="wave" variant="rectangular" />
+            </Grid>
+            <Grid item xs={6} sm={4}>
+                <Skeleton sx={{ height: "180px", width: "160px", borderRadius: "10px" }} animation="wave" variant="rectangular" />
+            </Grid>
+            <Grid item xs={6} sm={4}>
+                <Skeleton sx={{ height: "180px", width: "160px", borderRadius: "10px" }} animation="wave" variant="rectangular" />
+            </Grid>
+            <Grid item xs={6} sm={4}>
+                <Skeleton sx={{ height: "180px", width: "160px", borderRadius: "10px" }} animation="wave" variant="rectangular" />
+            </Grid>
+            <Grid item xs={6} sm={4}>
+                <Skeleton sx={{ height: "180px", width: "160px", borderRadius: "10px" }} animation="wave" variant="rectangular" />
+            </Grid>
+            <Grid item xs={6} sm={4}>
+                <Skeleton sx={{ height: "180px", width: "160px", borderRadius: "10px" }} animation="wave" variant="rectangular" />
+            </Grid>
+            </>
+            }
             {open && <MatchModal isOpen={open} handleClose={handleClose} thisUser={user} profile={selectedUser} match={selectedMatch}/>}
         </Grid>
     )

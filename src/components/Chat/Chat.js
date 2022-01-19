@@ -37,7 +37,7 @@ export default function Chat(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setMessages([...messages, {msg:message, me: true}]);
-        socket.emit("send-message", {room: chatWith, message: {sender: user._id.$oid, recipient: "test", message: message}});
+        socket.emit("send-message", {room: chatWith.id, message: {sender: user._id.$oid, recipient: "test", message: message}});
         setMessage('');
     }
 
@@ -69,11 +69,11 @@ export default function Chat(props) {
                 </IconButton>
                 <Avatar
                     alt="Remy Sharp"
-                    src={user.image}
+                    src={chatWith.otherUser.image}
                     sx={{ width: 35, height: 35, ml: 2 }}
                 />
                 <Typography variant='h6' sx={{fontFamily: 'Roboto', ml:1}}>
-                    {user.name}
+                    {chatWith.otherUser.name}
                 </Typography>
             </Box>
             <Box sx={{

@@ -13,11 +13,11 @@ export function  ConversationsProvider({ children }) {
     useEffect(() => {
         console.log("now" + chatWith);
         if(chatWith) {
-            socket.emit('join-room', {room: chatWith});
+            socket.emit('join-room', {room: chatWith.id});
         }
         return () => {
             if(chatWith) {
-                socket.emit('leave-room', {room: chatWith});
+                socket.emit('leave-room', {room: chatWith.id});
             }
         }
     }, [chatWith]);
