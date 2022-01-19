@@ -17,8 +17,8 @@ export default function ChatList() {
 
 
 
-    const handleClick = (id) => {
-        setChatWith(id);
+    const handleClick = (match) => {
+        setChatWith(match);
         setPage("chat");
     }
 
@@ -26,7 +26,7 @@ export default function ChatList() {
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             {potentialMatches.map((match,index) => {
                 {/* if(match.thisUserLiked && match.otherUserLiked) */}
-                return <ChatListItem key={index} onClick={()=>handleClick(match.id)} image={match.otherUser.image} name={match.otherUser.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "} />;
+                return <ChatListItem key={index} onClick={()=>handleClick(match)} image={match.otherUser.image} name={match.otherUser.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "} />;
             })}
         </List>
     )

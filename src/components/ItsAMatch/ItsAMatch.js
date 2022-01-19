@@ -91,7 +91,7 @@ export default function ItsAMatch(props) {
             </Box>
             <Container>
                 <Stack spacing={3} mt={8}>
-                    <FilledButton onClick={()=>{setPage("chat");setChatWith(selectedMatch.id)}}>send a message</FilledButton>
+                    <FilledButton onClick={()=>{setPage("chat");setChatWith(selectedMatch)}}>send a message</FilledButton>
                     <OutlinedButton onClick={()=>setPage("home")} >keep scrolling</OutlinedButton>
                 </Stack>
             </Container>
