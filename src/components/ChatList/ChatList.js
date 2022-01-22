@@ -27,12 +27,12 @@ export default function ChatList() {
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             {
                 potentialMatches.length > 0 ?
-                potentialMatches.map((match,index) => {
-                return <ChatListItem key={index} onClick={()=>handleClick(match)} image={match.otherUser.image} name={match.otherUser.name} msg={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "} />;
+                potentialMatches.filter((m=>m.thisUserLiked && m.otherUserLiked)).map((match,index) => {
+                return <ChatListItem key={index} onClick={()=>handleClick(match)} image={match.otherUser.image} name={match.otherUser.name} msg={match.messages.length > 0 ? match.messages[match.messages.length-1].message : ""} />;
                 })
                 :
                 Array.apply(null, { length: 8 }).map((item, index) => {
-                return (<ListItem alignItems="flex-start" >
+                return (<ListItem key={index} alignItems="flex-start" >
                     <Skeleton variant="circular" width={61} height={61} />
                     <ListItemText
                     primary={<Skeleton
