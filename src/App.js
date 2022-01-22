@@ -40,6 +40,18 @@ const renderSwitch = (page) => {
       return <><NavBar /><Home /><Box sx={{ height: "10vh" }} /></>;
   }
 }
+
+const loggedOutRenderSwitch = (page) => {
+  switch (page) {
+    case "signup":
+      return <SignUp />
+      case 'spotify-login':
+      return <SpotifyLogin />
+    default:
+      return <Login />
+
+  }
+}
 const Yovel = {
   _id: "61e41635e66be9fb78ea343a",
   email: "yovell@gmail.com",
@@ -153,7 +165,7 @@ function App() {
     let userResponse;
     try {
       userResponse = await fetch("https://spotinder-shenkar.herokuapp.com/users/61e41635e66be9fb78ea343a");
-      if(userResponse.ok){
+      if (userResponse.ok) {
         userData = await userResponse.json();
         userData = userData.data;
         setUser(userData);
@@ -165,26 +177,31 @@ function App() {
   }
   return (
     <div>
-      <UserContext.Provider value={{user, updateUser}}>
-    {
-      user?
-        <SocketProvider id={user._id.$oid}>
-        <ConversationsProvider>      
-        <ThemeContext.Provider value={theme}>
-        <PageContext.Provider value={{page,setPage}}>
-        <PotentialMatchesProvider>
-          {/* <NavBar/> */}
-          <Box>
-            {renderSwitch(page)}
-          </Box>
-          </PotentialMatchesProvider>
-        </PageContext.Provider>
-        </ThemeContext.Provider>
-        </ConversationsProvider>
-        </SocketProvider>
-      :
-      <Login/>
-    }
+      <UserContext.Provider value={{ user, updateUser }}>
+        {
+          user ?
+            <SocketProvider id={user._id.$oid}>
+              <ConversationsProvider>
+                <ThemeContext.Provider value={theme}>
+                  <PageContext.Provider value={{ page, setPage }}>
+                    <PotentialMatchesProvider>
+                      {/* <NavBar/> */}
+                      <Box>
+                        {renderSwitch(page)}
+                      </Box>
+                    </PotentialMatchesProvider>
+                  </PageContext.Provider>
+                </ThemeContext.Provider>
+              </ConversationsProvider>
+            </SocketProvider>
+            :
+            <ThemeContext.Provider value={theme}>
+              <PageContext.Provider value={{ page, setPage }}>
+                {loggedOutRenderSwitch(page)}
+              </PageContext.Provider>
+            </ThemeContext.Provider>
+
+        }
       </UserContext.Provider>
     </div>
   );

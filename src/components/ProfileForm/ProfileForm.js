@@ -3,11 +3,17 @@ import { UserContext } from '../../Contexts/UserContext';
 import { Container, Box } from '@mui/material';
 import { TextField, RadioGroup, Radio } from '@mui/material';
 import { Button, Checkbox, FormGroup, FormControlLabel , FormControl, FormLabel} from '@mui/material';
+import AuthService from "../../services/auth.service";
+import authService from '../../services/auth.service';
+import { PageContext } from '../../Contexts/PageContext';
+// import { UserContext } from '../../Contexts/UserContext';
+
 
 
 export default function ProfileForm() {
     const {user, updateUser} = useContext(UserContext);
     const [editMode, setEditMode] = React.useState(false);
+    const { setPage } = React.useContext(PageContext);
     const [inputFields, setInputFields] = React.useState({
         name: user.name,
         email: user.email,
@@ -50,6 +56,23 @@ export default function ProfileForm() {
         });
     }
 
+    const logOut = (e) => {
+        e.preventDefault();
+        updateUser(null);
+        setPage("home");
+        authService.logout().then(res => {
+            if (res.status) {
+                console.log(res);
+            } else {
+                console.log(res);
+            }
+        }).catch(err => {
+            console.log(err);
+        });
+
+
+    }
+
     return (
         <div>
             <Container sx={{ justifyContent: "space-between", display: "flex", alignItems: "center", marginBottom: "10px" }}>
@@ -74,7 +97,11 @@ export default function ProfileForm() {
                     <FormControlLabel disabled={!editMode} name="interestedIn" control={<Checkbox onChange={handleChecked} value={"male"} checked={inputFields.interestedIn.includes("male")} />} label="Men" />
                     <FormControlLabel disabled={!editMode} name="interestedIn" control={<Checkbox onChange={handleChecked} value={"female"} checked={inputFields.interestedIn.includes("female")} />} label="Woman" />
                 </FormGroup>
-
+                <Container sx={{marginTop: "10px", marginBottom: "15px"}}>
+                <Box textAlign='center'>
+            <Button sx={{width: "70%"}} onClick={logOut} variant="contained" color="error"  disabled={editMode}>Logout</Button>
+             </Box>
+                </Container>
             </Container>
             {editMode && 
                 <Container sx={{marginTop: "10px", marginBottom: "15px"}}>

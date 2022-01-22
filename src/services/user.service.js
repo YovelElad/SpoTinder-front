@@ -31,6 +31,13 @@ const getAdminBoard = () => {
   return axios.get(API_URL + "admin", { headers: authHeader() });
 };
 
+const createUser = (_username, _password, _email, _gender, _preferences, _role) => {
+  const formData = {
+    
+  }
+
+}
+
 export default {
     getPublicContent,
     getAdminBoard,
