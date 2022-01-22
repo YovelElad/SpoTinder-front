@@ -27,7 +27,7 @@ export function PotentialMatchesProvider({ children }) {
     }, []);
 
     useEffect(() => {
-        if(selectedMatch && selectedMatch.thisUserLiked && selectedMatch.otherUserLiked) {
+        if(selectedMatch && selectedMatch.thisUserLiked && selectedMatch.otherUserLiked && user.role === "PAID") {
             setPage('its-a-match')
         }
     }, [selectedMatch]);
@@ -77,7 +77,8 @@ export function PotentialMatchesProvider({ children }) {
                         mutualTracks: item.mutualTracks,
                         score: item.score,
                         otherUser: otherPersonData,
-                        whoAmI: user._id == item.firstUser ? "first" : "second"
+                        whoAmI: user._id == item.firstUser ? "first" : "second",
+                        messages: item.messages
                     }
                 }
                 )

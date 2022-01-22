@@ -6,9 +6,11 @@ import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import Paper from '@mui/material/Paper';
 import { PageContext } from '../Contexts/PageContext';
+import { UserContext } from '../Contexts/UserContext';
 
 export default function NavBar() {
   const {page, setPage} = React.useContext(PageContext);  
+  const {user} = React.useContext(UserContext);
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
@@ -20,11 +22,14 @@ export default function NavBar() {
           value="home"
           icon={<HomeIcon />}
         />
-        <BottomNavigationAction
-          label="Matches"
-          value="matches"
-          icon={<FavoriteIcon />}
-        />
+        { user.role == "PAID" &&
+
+          <BottomNavigationAction
+            label="Matches"
+            value="matches"
+            icon={<FavoriteIcon />}
+          />
+        }
         <BottomNavigationAction
           label="Profile"
           value="profile"
