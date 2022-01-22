@@ -27,7 +27,7 @@ export function PotentialMatchesProvider({ children }) {
     }, []);
 
     useEffect(() => {
-        if(selectedMatch && selectedMatch.thisUserLiked && selectedMatch.otherUserLiked) {
+        if(selectedMatch && selectedMatch.thisUserLiked && selectedMatch.otherUserLiked && user.role === "PAID") {
             setPage('its-a-match')
         }
     }, [selectedMatch]);

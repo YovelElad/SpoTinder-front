@@ -14,6 +14,7 @@ import { ThemeContext } from '../../Contexts/ThemeContext';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { PotentialMatchesContext } from '../../Contexts/PotentialMatchesProvider'
 import { PageContext } from '../../Contexts/PageContext';
+import { UserContext } from '../../Contexts/UserContext';
 
 
 
@@ -34,6 +35,7 @@ export default function MatchModal(props) {
     const theme = useContext(ThemeContext);
     const {updateMatch} = useContext(PotentialMatchesContext)
     const {setPage} = useContext(PageContext)
+    const {user} = useContext(UserContext)
  
     const handleLike = async (e) => {
         console.log(props.match.id)
@@ -61,7 +63,8 @@ export default function MatchModal(props) {
                     <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 1 }}>
                         {props.profile.name}
                     </Typography>
-                    <img src={props.profile.image} alt="profile" style={{ width: "100%", height: "auto", borderRadius: "10px" }} />
+                    {/* <img src={props.profile.image} alt="profile" style={{ width: "100%", maxHeight: "auto", borderRadius: "10px" }} /> */}
+                    <Box sx={{ backgroundColor: "transparent", width: "100%", height:"30vh", backgroundImage: `url(${props.profile.image})`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center" }}/>
                     <Typography id="modal-modal-description" variant="h6" sx={{ mt: 2, mb: 1 }}>
                         Match Score: {Math.round(props.match.score*100)}%
                     </Typography>
@@ -81,16 +84,19 @@ export default function MatchModal(props) {
                     {props.profile.topTracks.slice(0, 5).map((track, index) => {
                         return <Chip key={`t${index}`} label={track} variant="outlined" sx={{ marginLeft: "5px", mt:1 }} />
                     })}
-                    <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }} >
-                        <Stack direction="row" spacing={5} >
-                            <IconButton aria-label="delete" sx={{ background: theme.red }}>
-                                <CloseIcon sx={{ color: "white" }} />
-                            </IconButton>
-                            <IconButton aria-label="delete" sx={{ background: theme.purple }} onClick={handleLike}>
-                                {props.match.thisUserLiked ? <FavoriteIcon sx={{ color: "white" }} /> : <FavoriteBorderIcon sx={{ color: "white" }} />}
-                            </IconButton>
-                        </Stack>
-                    </Box>
+                    {
+                        user.role === "PAID" &&
+                        <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }} >
+                            <Stack direction="row" spacing={5} >
+                                <IconButton aria-label="delete" sx={{ background: theme.red }}>
+                                    <CloseIcon sx={{ color: "white" }} />
+                                </IconButton>
+                                <IconButton aria-label="delete" sx={{ background: theme.purple }} onClick={handleLike}>
+                                    {props.match.thisUserLiked ? <FavoriteIcon sx={{ color: "white" }} /> : <FavoriteBorderIcon sx={{ color: "white" }} />}
+                                </IconButton>
+                            </Stack>
+                        </Box>
+                    }
                 </Box>
             )}
         </Modal>

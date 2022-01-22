@@ -11,7 +11,6 @@ export function  ConversationsProvider({ children }) {
     const [chatWith, setChatWith] = React.useState(null);
     const socket = useSocket();
     useEffect(() => {
-        console.log("now" + chatWith);
         if(chatWith) {
             socket.emit('join-room', {room: chatWith.id});
         }

@@ -16,6 +16,7 @@ import Chat from './components/Chat/Chat';
 import { PotentialMatchesProvider } from './Contexts/PotentialMatchesProvider';
 import { SocketProvider } from './Contexts/SocketProvider';
 import { ConversationsProvider } from './Contexts/ConversationsContext';
+import authService from './services/auth.service';
 
 
 const renderSwitch = (page) => {
@@ -141,12 +142,15 @@ const theme = {
 };
 
 function App() {
+  const userFromStorage = authService.getCurrentUser();
   const [page, setPage] = React.useState('home');
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = React.useState(userFromStorage ? {...userFromStorage.user, role: userFromStorage.role} : null);
 
   const updateUser = (user) => {
     setUser(user);
   }
+
+  console.log(user);
 
   const fetchUser = async () => {
     let userData;

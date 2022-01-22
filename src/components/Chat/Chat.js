@@ -8,6 +8,8 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Message from '../Message/Message';
 import { useSocket } from '../../Contexts/SocketProvider';
 import { useConversations } from '../../Contexts/ConversationsContext';
+import { usePotentialMatches } from '../../Contexts/PotentialMatchesProvider'
+
 
 export default function Chat(props) {
     const {user} = React.useContext(UserContext)
@@ -18,6 +20,7 @@ export default function Chat(props) {
     const socket = useSocket();
     const { chatWith, setChatWith } = useConversations();
     const [messages, setMessages] = React.useState(chatWith.messages);
+    const {setPotetialMatches} = usePotentialMatches();
 
 
     const onKeyDown = (event) => {
@@ -45,12 +48,19 @@ export default function Chat(props) {
         }
 
         setMessages([...messages, newMessage]);
+                
         socket.emit("send-message", {room: chatWith.id, message: newMessage});
 
         setMessage('');
     }
 
     const handleBack = () => {
+        setPotetialMatches(prev => prev.map(match => {
+            if (match.id === chatWith.id) {
+                return {...match, messages: messages}
+            }
+            return match;
+        }));
         setPage("matches");
         setChatWith(null);
     }
