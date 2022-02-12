@@ -33,24 +33,39 @@ const style = {
 
 export default function MatchModal(props) {
     const theme = useContext(ThemeContext);
-    const {updateMatch} = useContext(PotentialMatchesContext)
-    const {setPage} = useContext(PageContext)
-    const {user} = useContext(UserContext)
- 
+    const { updateMatch } = useContext(PotentialMatchesContext)
+    const { setPage } = useContext(PageContext)
+    const { user } = useContext(UserContext)
+
     const handleLike = async (e) => {
         console.log(props.match.id)
         e.preventDefault();
-        const updateData = props.match.whoAmI === "first" ? {firstUserLiked: !(props.match.thisUserLiked)} : {secondUserLiked:!(props.match.thisUserLiked)}
+        // const updateData = props.match.whoAmI === "first" ? { firstUserLiked: true } : { secondUserLiked: true }
+        const updateData = props.match.whoAmI === "first" ? { firstUserLiked: !(props.match.thisUserLiked) } : { secondUserLiked: !(props.match.thisUserLiked) }
         try {
             updateMatch(props.thisUser._id, props.match.id, updateData);
         } catch (error) {
             console.log(error);
         }
-        if(updateData.firstUserLiked && updateData.secondUserLiked) {
+        if (updateData.firstUserLiked && updateData.secondUserLiked) {
             setPage('its-a-match')
         }
     }
-
+ 
+    const handleUnlike = async (e) => {
+        e.preventDefault();
+        const updateData = props.match.whoAmI === "first" ? { firstUserLiked: false } : { secondUserLiked: false }
+        console.log(updateData);
+        try {
+            updateMatch(props.thisUser._id, props.match.id, updateData);
+        } catch (error) {
+            console.log(error);
+        }
+        // props.handleClose();
+        
+        //    alert("unlike");
+    }
+    console.log(props.match.thisUserLiked)
     return (
         <Modal
             open={props.isOpen}
@@ -64,9 +79,9 @@ export default function MatchModal(props) {
                         {props.profile.name}
                     </Typography>
                     {/* <img src={props.profile.image} alt="profile" style={{ width: "100%", maxHeight: "auto", borderRadius: "10px" }} /> */}
-                    <Box sx={{ backgroundColor: "transparent", width: "100%", height:"30vh", backgroundImage: `url(${props.profile.image})`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center" }}/>
+                    <Box sx={{ backgroundColor: "transparent", width: "100%", height: "30vh", backgroundImage: `url(${props.profile.image})`, backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundPosition: "center" }} />
                     <Typography id="modal-modal-description" variant="h6" sx={{ mt: 2, mb: 1 }}>
-                        Match Score: {Math.round(props.match.score*100)}%
+                        Match Score: {Math.round(props.match.score * 100)}%
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2, mb: 1 }}>
                         Top 5 Mutal Artists
@@ -82,22 +97,22 @@ export default function MatchModal(props) {
                         Top 5 Mutal Traks
                     </Typography>
                     {props.profile.topTracks.slice(0, 5).map((track, index) => {
-                        return <Chip key={`t${index}`} label={track} variant="outlined" sx={{ marginLeft: "5px", mt:1 }} />
+                        return <Chip key={`t${index}`} label={track} variant="outlined" sx={{ marginLeft: "5px", mt: 1 }} />
                     })}
                     {
                         user.role === "PAID" &&
                         <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }} >
                             <Stack direction="row" spacing={5} >
-                                <IconButton aria-label="delete" sx={{ background: theme.red }}>
+                                {/* <IconButton aria-label="delete" sx={{ background: theme.red }} onClick={handleUnlike}>
                                     <CloseIcon sx={{ color: "white" }} />
-                                </IconButton>
+                                </IconButton> */}
                                 <IconButton aria-label="delete" sx={{ background: theme.purple }} onClick={handleLike}>
                                     {props.match.thisUserLiked ? <FavoriteIcon sx={{ color: "white" }} /> : <FavoriteBorderIcon sx={{ color: "white" }} />}
                                 </IconButton>
                             </Stack>
                         </Box>
                     }
-                </Box>
+                </Box> 
             )}
         </Modal>
     )

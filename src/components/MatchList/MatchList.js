@@ -43,7 +43,7 @@ export default function MatchList() {
          });
     }
 
-  
+//   console.log(selectedMatch.thisUserLiked);
     return (
     
         <Grid container spacing={2}>
