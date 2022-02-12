@@ -84,12 +84,14 @@ export function PotentialMatchesProvider({ children }) {
                 )
                 )
                 setPotetialMatches(temp);
-
             } else {
                 console.log("Error while fetching data from server");
             }
-        } catch (err) {
-            console.log(`Error while fetching data from server: ${err}`);
+        } catch (err) { 
+            if(err.response.status == 401) {
+                localStorage.removeItem("user");
+                setPage('login');
+            }
         }
 
     }
