@@ -30,15 +30,25 @@ export default function MatchList() {
         }
     }, [potentialMatches])
         
+    const renderMatchesPaid = () => {
+        return potentialMatches.map((item,index) => {
+            return <MatchListItem key={index} match={item} thisUser={user} profile={item.otherUser} onClick={handleOpen}/>
+         });
+    }
+
+    const renderMatchesFree = () => {
+        const freeMatches = potentialMatches.slice(0,6);
+        return freeMatches.map((item,index) => {
+            return <MatchListItem key={index} blur={index==5} match={item} thisUser={user} profile={item.otherUser} onClick={handleOpen}/>
+         });
+    }
 
   
     return (
     
         <Grid container spacing={2}>
             {potentialMatches.length > 0 ? 
-            potentialMatches.map((item,index) => {
-               return <MatchListItem key={index} match={item} thisUser={user} profile={item.otherUser} onClick={handleOpen}/>
-            })
+                user.role === "PAID" ? renderMatchesPaid() : renderMatchesFree()
             :
             <>
             <Grid item xs={6} sm={4}>

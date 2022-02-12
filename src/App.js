@@ -150,8 +150,6 @@ function App() {
     setUser(user);
   }
 
-  console.log(user);
-
   const fetchUser = async () => {
     let userData;
     let userResponse;
