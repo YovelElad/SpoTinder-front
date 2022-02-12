@@ -95,15 +95,15 @@ export default function SignUp() {
 
                 <form action="#">
                     <Input whenChange={(userName) => setUserName(userName)} type="text">User Name</Input>
-                    <br />
+                    <br /><br />
                     <Input whenChange={(email) => setEmail(email)} type="email">Email Address</Input>
-                    <br />
+                    <br /><br />
                     <Input whenChange={(password) => setPassword(password)} type="password">Password</Input>
-                    <br />
+                    <br /><br />
                     <Select whenChange={(gender) => setGender(gender)}>Gender</Select>
 
                     <br />
-                    <label class="mt-3">Interested in</label><br />
+                    <label class="mt-3" style={{color:"gray"}}>Interested in</label><br />
                     <FormControlLabel control={<Checkbox onChange={handlePreferancesChange} name='male' />} label="Male" />
                     <FormControlLabel control={<Checkbox onChange={handlePreferancesChange} name='female' />} label="Female" />
                     <br /><br />

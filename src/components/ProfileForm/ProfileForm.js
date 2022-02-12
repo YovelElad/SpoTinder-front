@@ -2,7 +2,7 @@ import React , { useContext } from 'react'
 import { UserContext } from '../../Contexts/UserContext';
 import { Container, Box } from '@mui/material';
 import { TextField, RadioGroup, Radio } from '@mui/material';
-import { Button, Checkbox, FormGroup, FormControlLabel , FormControl, FormLabel} from '@mui/material';
+import { Button, Checkbox, FormGroup, FormControlLabel , FormControl, FormLabel,Switch} from '@mui/material';
 import AuthService from "../../services/auth.service";
 import authService from '../../services/auth.service';
 import { PageContext } from '../../Contexts/PageContext';
@@ -19,7 +19,8 @@ export default function ProfileForm() {
         email: user.email,
         password: '',
         gender: user.gender,
-        interestedIn: user.interestedIn
+        interestedIn: user.interestedIn,
+        role: user.role
     });
 
     const handleChange = (event) => {
@@ -38,6 +39,21 @@ export default function ProfileForm() {
             gender: user.gender,
             interestedIn: user.interestedIn
         });
+    }
+
+    const handleSwitch = (e) => {
+        if(inputFields.role == "PAID"){
+            setInputFields({
+                ...inputFields,
+                role: "FREE"
+            }) 
+        } else {
+            setInputFields({
+                ...inputFields,
+                role: "PAID"
+            }) 
+        }
+        console.log(e.target.checked);
     }
 
     const handleChecked = (event, isChecked) => {
@@ -72,7 +88,7 @@ export default function ProfileForm() {
 
 
     }
-
+    // console.log(user);
     return (
         <div>
             <Container sx={{ justifyContent: "space-between", display: "flex", alignItems: "center", marginBottom: "10px" }}>
@@ -97,6 +113,9 @@ export default function ProfileForm() {
                     <FormControlLabel disabled={!editMode} name="interestedIn" control={<Checkbox onChange={handleChecked} value={"male"} checked={inputFields.interestedIn.includes("male")} />} label="Men" />
                     <FormControlLabel disabled={!editMode} name="interestedIn" control={<Checkbox onChange={handleChecked} value={"female"} checked={inputFields.interestedIn.includes("female")} />} label="Woman" />
                 </FormGroup>
+
+                <FormControlLabel checked={inputFields.role == "PAID"} onChange={handleSwitch}  disabled={!editMode} control={<Switch />} label="Premium" />
+
                 <Container sx={{marginTop: "10px", marginBottom: "15px"}}>
                 <Box textAlign='center'>
             <Button sx={{width: "70%"}} onClick={logOut} variant="contained" color="error"  disabled={editMode}>Logout</Button>

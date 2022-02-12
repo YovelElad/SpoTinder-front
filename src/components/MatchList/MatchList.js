@@ -31,12 +31,13 @@ export default function MatchList() {
     }, [potentialMatches])
         
 
-  
+//   console.log(selectedMatch.thisUserLiked);
     return (
     
         <Grid container spacing={2}>
             {potentialMatches.length > 0 ? 
             potentialMatches.map((item,index) => {
+                if(user.interestedIn.indexOf(item.otherUser.gender) > -1)
                return <MatchListItem key={index} match={item} thisUser={user} profile={item.otherUser} onClick={handleOpen}/>
             })
             :

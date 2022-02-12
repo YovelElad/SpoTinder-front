@@ -37,6 +37,7 @@ export function PotentialMatchesProvider({ children }) {
         const match = potentialMatches.find(m => m.id == matchID);
         if(match) {
             const response = await userService.updateMatch(userID, matchID, updateData);
+            console.log(response.data.data)
             if(response.data.status) {
                 const updatedMatch = {...match, thisUserLiked: !match.thisUserLiked};                
                 const updatedPotentialMatches = potentialMatches.map(m => m.id == matchID ? updatedMatch : m);
@@ -68,6 +69,7 @@ export function PotentialMatchesProvider({ children }) {
                     } catch {
                         /////////////////////////////////////////////////////
                     }
+                    console.log(otherUserID,item.firstUserLiked);
                     return {
                         id: item._id,
                         thisUserLiked: otherUserID == item.firstUser ? item.secondUserLiked : item.firstUserLiked,
