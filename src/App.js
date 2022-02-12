@@ -17,6 +17,7 @@ import { PotentialMatchesProvider } from './Contexts/PotentialMatchesProvider';
 import { SocketProvider } from './Contexts/SocketProvider';
 import { ConversationsProvider } from './Contexts/ConversationsContext';
 import authService from './services/auth.service';
+import userService from './services/user.service';
 
 
 const renderSwitch = (page) => {
@@ -68,7 +69,7 @@ const theme = {
 function App() {
   const userFromStorage = authService.getCurrentUser();
   const [page, setPage] = React.useState('home');
-  const [user, setUser] = React.useState(userFromStorage ? { ...userFromStorage.user, role: userFromStorage.role } : null);
+  const [user, setUser] = React.useState((userFromStorage && userFromStorage.user.token) ? { ...userFromStorage.user, role: userFromStorage.role } : null);
 
   const updateUser = (user) => {
     setUser(user);
@@ -79,7 +80,7 @@ function App() {
       <UserContext.Provider value={{ user, updateUser }}>
         {
           user ?
-            <SocketProvider id={user._id.$oid}>
+            <SocketProvider id={user._id}>
               <ConversationsProvider>
                 <ThemeContext.Provider value={theme}>
                   <PageContext.Provider value={{ page, setPage }}>
