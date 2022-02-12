@@ -24,7 +24,7 @@ export default function Login() {
         event.preventDefault();
         AuthService.login(email, password).then(res => {
             if(res.status) {
-                updateUser(res.user);
+                updateUser({...res.user, role: res.role});
             } else {
                 console.log(res);
             }
