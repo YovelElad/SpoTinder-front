@@ -19,6 +19,10 @@ const getUser = (userID) => {
     return axios.get(API_URL + "users/" + userID, { headers: authHeader() });
 }
 
+const updateUser = (userID, userData) => {
+  return axios.put(API_URL + "users/" + userID, userData, { headers: authHeader() });
+}
+
 const getUserFree = () => {
   return axios.get(API_URL + "user", { headers: authHeader() });
 };
@@ -44,4 +48,5 @@ export default {
     getPotentialMatches,
     updateMatch,
     getUser,
+    updateUser,
 };

@@ -3,9 +3,9 @@ import { UserContext } from '../../Contexts/UserContext';
 import { Container, Box } from '@mui/material';
 import { TextField, RadioGroup, Radio } from '@mui/material';
 import { Button, Checkbox, FormGroup, FormControlLabel , FormControl, FormLabel,Switch} from '@mui/material';
-import AuthService from "../../services/auth.service";
 import authService from '../../services/auth.service';
 import { PageContext } from '../../Contexts/PageContext';
+import userService from '../../services/user.service';
 // import { UserContext } from '../../Contexts/UserContext';
 
 
@@ -72,21 +72,25 @@ export default function ProfileForm() {
         });
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const userData = {...user , ...inputFields};
+        userService.updateUser(user.id, userData).then(res => {
+            console.log(res);
+            if(res.status){
+                updateUser(userData);
+                setEditMode(false);
+            }
+        })
+    }
+
+            
+
     const logOut = (e) => {
         e.preventDefault();
         updateUser(null);
         setPage("home");
-        authService.logout().then(res => {
-            if (res.status) {
-                console.log(res);
-            } else {
-                console.log(res);
-            }
-        }).catch(err => {
-            console.log(err);
-        });
-
-
+        authService.logout();
     }
 
     return (
@@ -129,10 +133,7 @@ export default function ProfileForm() {
                 <Container sx={{marginTop: "10px", marginBottom: "15px"}}>
                 <Box textAlign='center'>
                     <Button sx={{width: "70%"}} disabled={!editMode}  variant="contained" color="secondary" 
-                    onClick={() => {
-                        setEditMode(false);
-                        updateUser({...user , ...inputFields});
-                    }}>Save</Button>
+                    onClick={handleSubmit}>Save</Button>
                 </Box>
                 </Container>
             }
