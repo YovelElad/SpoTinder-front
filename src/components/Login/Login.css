@@ -52,14 +52,6 @@
 
 }
 
-.acceptTermsButton{
-    background-color: white;
-    border: none;
-    position: absolute;
-    bottom: 84px;
-    right: 0;
-
-}
 
 .login .wrapper .signUpButton{
     /* background-color: #AA3FEC; */
