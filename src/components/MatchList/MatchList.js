@@ -48,7 +48,7 @@ export default function MatchList() {
     return (
     
         
-        potentialMatches.filter(item => user.interestedIn.includes(item.otherUser.gender)) > 0 ?
+        potentialMatches.length == 0 || potentialMatches.filter(item => user.interestedIn.includes(item.otherUser.gender.toLowerCase())).length > 0 ?
         <Grid container spacing={2}>
             {potentialMatches.length > 0 ? 
                 user.role === "PAID" ? renderMatchesPaid() : renderMatchesFree()
