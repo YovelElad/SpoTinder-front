@@ -5,11 +5,11 @@
     font-family: "Roboto";
 }
 
-#signup #wrapper,
-.login .wrapper {
+/* #signup #wrapper, */
+ .wrapper {
     width: 300px;
-    height: 100vh;
-    margin: auto;
+    height: 90vh;
+    margin: 0 auto;
     position: relative;
     justify-content: center;
 }
@@ -60,7 +60,7 @@
     border: none;
     color: rgb(67, 67, 172);
     position: absolute;
-    bottom: 200px;
+    bottom: 150px;
     width: 100%;
 
 }
