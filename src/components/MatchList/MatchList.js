@@ -5,6 +5,7 @@ import { useContext } from 'react'
 import { UserContext } from '../../Contexts/UserContext'
 import MatchModal from '../MatchModal/MatchModal'
 import { PotentialMatchesContext } from '../../Contexts/PotentialMatchesProvider'
+import EmptyPage from '../EmptyPage/EmptyPage'
 
 export default function MatchList() {
     const {user} = useContext(UserContext);
@@ -43,8 +44,11 @@ export default function MatchList() {
          });
     }
 
+
     return (
     
+        
+        potentialMatches.filter(item => user.interestedIn.includes(item.otherUser.gender)) > 0 ?
         <Grid container spacing={2}>
             {potentialMatches.length > 0 ? 
                 user.role === "PAID" ? renderMatchesPaid() : renderMatchesFree()
@@ -72,5 +76,7 @@ export default function MatchList() {
             }
             {open && <MatchModal isOpen={open} handleClose={handleClose} thisUser={user} profile={selectedUser} match={selectedMatch}/>}
         </Grid>
+        :
+        <EmptyPage image="./images/empty_match.png" title="No matches found" subtitle="Still looking for your prince charming..."/>
     )
 }
