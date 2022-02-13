@@ -81,18 +81,18 @@ function App() {
         {
           user ?
             <SocketProvider id={user._id}>
-              <ConversationsProvider>
                 <ThemeContext.Provider value={theme}>
                   <PageContext.Provider value={{ page, setPage }}>
                     <PotentialMatchesProvider>
+              <ConversationsProvider>
                       {/* <NavBar/> */}
                       <Box>
                         {renderSwitch(page)}
                       </Box>
+              </ConversationsProvider>
                     </PotentialMatchesProvider>
                   </PageContext.Provider>
                 </ThemeContext.Provider>
-              </ConversationsProvider>
             </SocketProvider>
             :
             <ThemeContext.Provider value={theme}>

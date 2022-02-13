@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useSocket } from './SocketProvider'
+import { usePotentialMatches } from './PotentialMatchesProvider'
 
 const ConversationsContext = React.createContext(null);
 
@@ -9,20 +10,64 @@ export function useConversations() {
 
 export function  ConversationsProvider({ children }) {
     const [chatWith, setChatWith] = React.useState(null);
+    const { potentialMatches } = usePotentialMatches();
+    const [conversations, setConversations] = React.useState(potentialMatches.filter(m=>m.thisUserLiked && m.otherUserLiked));
     const socket = useSocket();
+
     useEffect(() => {
-        if(chatWith) {
-            socket.emit('join-room', {room: chatWith.id});
-        }
+        if(socket) {
+        socket.on("receive-message", (data) => {
+            console.log(data);
+
+            let tempConversations = [...conversations];
+            console.log(tempConversations);
+            tempConversations = tempConversations.map(c => {
+                if(c.id == data.room) {
+                    console.log("found room");
+                    c.messages.push({sender:data.sender, message:data.data.message, receiver:data.data.receiver, date:data.data.date});
+                }
+                return c;
+            });
+            console.log(tempConversations);
+            setConversations(tempConversations);
+           
+                  
+            // setConversations(prev => {
+            //     const newConversations = [...prev];
+            //     newConversations.forEach(c => {
+            //         if (c.id === data.room) {
+            //             console.log(c.messages.length);
+            //             c.messages.push({sender:data.sender, message:data.data.message, receiver:data.data.receiver, date:data.data.date});
+            //             console.log(c.messages.length);
+            //         }
+            //     });
+            //     return newConversations;
+            // });
+        });
         return () => {
-            if(chatWith) {
-                socket.emit('leave-room', {room: chatWith.id});
-            }
+            socket.off("receive-message");
         }
-    }, [chatWith]);
+        }
+    }, [socket]);
+
+    useEffect(() => {
+        conversations.forEach(conversation => {
+            socket.emit('join-room', {room: conversation.id});
+        });
+        return () => {
+            conversations.forEach(conversation => {
+                socket.emit('leave-room', {room: conversation.id});
+            });
+        }
+    }, [conversations]);
+
+
+    useEffect(() => {
+        setConversations(potentialMatches.filter(m=>m.thisUserLiked && m.otherUserLiked));
+    }, [potentialMatches]);
 
     return (
-        <ConversationsContext.Provider value={{chatWith,setChatWith}}>
+        <ConversationsContext.Provider value={{chatWith,setChatWith,conversations, setConversations}}>
         {children}
         </ConversationsContext.Provider>
     )

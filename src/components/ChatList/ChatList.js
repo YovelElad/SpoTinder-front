@@ -15,13 +15,16 @@ import EmptyPage from '../EmptyPage/EmptyPage';
 export default function ChatList() {
     const {user} = React.useContext(UserContext)
     const {setPage} = React.useContext(PageContext)
-    const {chatWith, setChatWith} = useConversations();
+    const {chatWith, setChatWith, conversations} = useConversations();
     const {potentialMatches} = usePotentialMatches();
 
     const handleClick = (match) => {
         setChatWith(match);
         setPage("chat");
     }
+
+    // useEffect(() => {
+
 
     const renderSkeleton = () => {
         return Array.apply(null, { length: 8 }).map((item, index) => {
@@ -51,23 +54,12 @@ export default function ChatList() {
     const renderList = () => {
         const filteredMatches = potentialMatches.filter(m=>m.thisUserLiked && m.otherUserLiked);
         if(filteredMatches.length > 0) {
-            return filteredMatches.map((match, index) => {
-                return <ChatListItem key={index} onClick={()=>handleClick(match)} image={match.otherUser.image} name={match.otherUser.name} msg={match.messages.length > 0 ? match.messages[match.messages.length-1].message : ""} />;
+            return conversations.map((match, index) => {
+                return <ChatListItem key={index} onClick={()=>handleClick(index)} image={match.otherUser.image} name={match.otherUser.name} msg={match.messages.length > 0 ? match.messages[match.messages.length-1].message : ""} />;
             }
             );
         } else {
             return <EmptyPage title="You have no matches yet!" subtitle="Try to like someone and they will appear here..." image="./images/empty_list.png" />
-            // <>
-            //     <Box sx={{height:"60vh", background:"url('./images/empty_list.png')", backgroundPosition:"center", backgroundSize:"contain", backgroundRepeat:"no-repeat"}}>
-            //     </Box>
-            //     <Typography variant="h6" align="center">
-            //         You have no matches yet!
-            //     </Typography>
-            //     <Typography variant="subtitle2" align="center" sx={{color:"#b0b0b0"}}>
-            //         Try to like someone and they will appear here...
-            //     </Typography>
-
-            // </>
         }
     }
 
