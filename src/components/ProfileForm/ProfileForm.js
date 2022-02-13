@@ -3,9 +3,9 @@ import { UserContext } from '../../Contexts/UserContext';
 import { Container, Box } from '@mui/material';
 import { TextField, RadioGroup, Radio } from '@mui/material';
 import { Button, Checkbox, FormGroup, FormControlLabel , FormControl, FormLabel,Switch} from '@mui/material';
-import AuthService from "../../services/auth.service";
 import authService from '../../services/auth.service';
 import { PageContext } from '../../Contexts/PageContext';
+import userService from '../../services/user.service';
 // import { UserContext } from '../../Contexts/UserContext';
 
 
@@ -37,7 +37,8 @@ export default function ProfileForm() {
             email: user.email,
             password: '',
             gender: user.gender,
-            interestedIn: user.interestedIn
+            interestedIn: user.interestedIn,
+            role: user.role,
         });
     }
 
@@ -53,7 +54,6 @@ export default function ProfileForm() {
                 role: "PAID"
             }) 
         }
-        console.log(e.target.checked);
     }
 
     const handleChecked = (event, isChecked) => {
@@ -72,23 +72,27 @@ export default function ProfileForm() {
         });
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const userData = {...user , ...inputFields};
+        userService.updateUser(user.id, userData).then(res => {
+            console.log(res);
+            if(res.status){
+                updateUser(userData);
+                setEditMode(false);
+            }
+        })
+    }
+
+            
+
     const logOut = (e) => {
         e.preventDefault();
         updateUser(null);
         setPage("home");
-        authService.logout().then(res => {
-            if (res.status) {
-                console.log(res);
-            } else {
-                console.log(res);
-            }
-        }).catch(err => {
-            console.log(err);
-        });
-
-
+        authService.logout();
     }
-    // console.log(user);
+
     return (
         <div>
             <Container sx={{ justifyContent: "space-between", display: "flex", alignItems: "center", marginBottom: "10px" }}>
@@ -114,11 +118,14 @@ export default function ProfileForm() {
                     <FormControlLabel disabled={!editMode} name="interestedIn" control={<Checkbox onChange={handleChecked} value={"female"} checked={inputFields.interestedIn.includes("female")} />} label="Woman" />
                 </FormGroup>
 
-                <FormControlLabel checked={inputFields.role == "PAID"} onChange={handleSwitch}  disabled={!editMode} control={<Switch />} label="Premium" />
+                <FormGroup sx={{marginTop: "30px"}}>
+                    <FormLabel component="legend">{user.role == "PAID" ? "You're Already a Premium Member!" : "Become a Premium Member!"}</FormLabel>
+                    <FormControlLabel checked={inputFields.role == "PAID"} onChange={handleSwitch}  disabled={!editMode} control={<Switch />} label="Premium" />
+                </FormGroup>
 
                 <Container sx={{marginTop: "10px", marginBottom: "15px"}}>
                 <Box textAlign='center'>
-            <Button sx={{width: "70%"}} onClick={logOut} variant="contained" color="error"  disabled={editMode}>Logout</Button>
+            {!editMode && <Button sx={{width: "70%"}} onClick={logOut} variant="contained" color="error"  disabled={editMode}>Logout</Button>}
              </Box>
                 </Container>
             </Container>
@@ -126,10 +133,7 @@ export default function ProfileForm() {
                 <Container sx={{marginTop: "10px", marginBottom: "15px"}}>
                 <Box textAlign='center'>
                     <Button sx={{width: "70%"}} disabled={!editMode}  variant="contained" color="secondary" 
-                    onClick={() => {
-                        setEditMode(false);
-                        updateUser({...user , ...inputFields});
-                    }}>Save</Button>
+                    onClick={handleSubmit}>Save</Button>
                 </Box>
                 </Container>
             }

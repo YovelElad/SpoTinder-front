@@ -1,7 +1,7 @@
 import React from 'react'
 import "./Login.css"
 import Input from "./Input";
-import { Button } from '@mui/material';
+import { Button, FormControl, FormGroup } from '@mui/material';
 import Select from './Select';
 import Box from '@mui/material/Box';
 import { PageContext } from '../../Contexts/PageContext';
@@ -51,14 +51,9 @@ export default function SignUp() {
             interestedIn: preferences
         }
 
-        
-        console.log( authService.register(userData, premium));
         authService.register(userData, premium).then((res) => {
-            console.log(res);
             if (res.status) {
                 updateUser(res.user);
-                // console.log(res);
-                // console.log(res.user);
                 setPage("spotify-login");
             } else {
                 console.log(res);
@@ -69,7 +64,6 @@ export default function SignUp() {
 
 
     const handlePreferancesChange = (e) => {
-        console.log(e.target.name, "->", e.target.checked);
         if (e.target.checked) {
             setPreferences([...preferences, e.target.name]);
         } else {
@@ -77,12 +71,12 @@ export default function SignUp() {
         }
     }
 
-
     function cancelPremium() {
         setPremium(false);
         setOpenDialog(false);
         setAcceptTerms(false);
     }
+    
     return (
         <div className='signUp' id='signup'>
             <TopBackground color={theme.purple} />
@@ -107,9 +101,11 @@ export default function SignUp() {
                     <FormControlLabel control={<Checkbox onChange={handlePreferancesChange} name='male' />} label="Male" />
                     <FormControlLabel control={<Checkbox onChange={handlePreferancesChange} name='female' />} label="Female" />
                     <br /><br />
-                    <FormControlLabel checked={premium} onChange={() => premium ? setPremium(false) : setPremium(true)} control={<Switch />} label="Premium" />
+                    <FormGroup row>
+                        <FormControlLabel checked={premium} onChange={(event) => setPremium(event.target.checked) } control={<Switch />} label="Premium" />
+                        <Button  sx={{ml:"45px"}} onClick={() => setOpenDialog(true)} disabled={!premium}>Accept Terms</Button>
+                    </FormGroup>
                     <br />
-                    <button className='acceptTermsButton' onClick={() => setOpenDialog(true)} disabled={!premium}>Accept Terms</button>
                     <br />
                     <Button onClick={handleSubmit} id='sginUpButton' variant="contained" disabled={premium && !acceptTerms}>SIGN UP</Button>
                 </form>

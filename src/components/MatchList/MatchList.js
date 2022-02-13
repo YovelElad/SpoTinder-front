@@ -31,19 +31,18 @@ export default function MatchList() {
     }, [potentialMatches])
         
     const renderMatchesPaid = () => {
-        return potentialMatches.map((item,index) => {
+        return potentialMatches.filter(item => user.interestedIn.includes(item.otherUser.gender)).map((item,index) => {
             return <MatchListItem key={index} match={item} thisUser={user} profile={item.otherUser} onClick={handleOpen}/>
          });
     }
 
     const renderMatchesFree = () => {
         const freeMatches = potentialMatches.slice(0,6);
-        return freeMatches.map((item,index) => {
+        return freeMatches.filter(item => user.interestedIn.includes(item.otherUser.gender)).map((item,index) => {
             return <MatchListItem key={index} blur={index==5} match={item} thisUser={user} profile={item.otherUser} onClick={handleOpen}/>
          });
     }
 
-//   console.log(selectedMatch.thisUserLiked);
     return (
     
         <Grid container spacing={2}>

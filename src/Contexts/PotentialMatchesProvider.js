@@ -69,7 +69,6 @@ export function PotentialMatchesProvider({ children }) {
                     } catch {
                         /////////////////////////////////////////////////////
                     }
-                    console.log(otherUserID,item.firstUserLiked);
                     return {
                         id: item._id,
                         thisUserLiked: otherUserID == item.firstUser ? item.secondUserLiked : item.firstUserLiked,
