@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useEffect } from "react";
 import { UserContext } from '../Contexts/UserContext'
-import axios from 'axios';
-import { ContactSupport } from "@mui/icons-material";
 import { PageContext } from "./PageContext";
 import userService from "../services/user.service";
 
@@ -66,8 +64,14 @@ export function PotentialMatchesProvider({ children }) {
                             otherPersonData = otherPersonData.data;
                         }
 
-                    } catch {
-                        /////////////////////////////////////////////////////
+                    } catch(err) {
+                        if(err.response.status == 401) {
+                            localStorage.removeItem("user");
+                            setPage('login');
+                        } else {
+                            console.log(err);
+                        }
+                        
                     }
                     return {
                         id: item._id,

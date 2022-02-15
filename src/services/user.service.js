@@ -23,24 +23,9 @@ const updateUser = (userID, userData) => {
   return axios.put(API_URL + "users/" + userID, userData, { headers: authHeader() });
 }
 
-const getUserFree = () => {
-  return axios.get(API_URL + "user", { headers: authHeader() });
-};
-
-const getUserPaid = () => {
-  return axios.get(API_URL + "mod", { headers: authHeader() });
-};
-
 const getAdminBoard = () => {
   return axios.get(API_URL + "admin", { headers: authHeader() });
 };
-
-const createUser = (_username, _password, _email, _gender, _preferences, _role) => {
-  const formData = {
-    
-  }
-
-}
 
 export default {
     getPublicContent,
