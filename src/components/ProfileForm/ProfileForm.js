@@ -78,6 +78,11 @@ export default function ProfileForm() {
         userService.updateUser(user.id, userData).then(res => {
             console.log(res);
             if(res.status){
+                const existingUser = authService.getCurrentUser();
+                console.log(existingUser);
+                existingUser.user = userData;
+                existingUser.role = userData.role;
+                localStorage.setItem('user', JSON.stringify(existingUser));
                 updateUser(userData);
                 setEditMode(false);
             }

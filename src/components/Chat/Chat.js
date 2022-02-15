@@ -15,11 +15,9 @@ export default function Chat(props) {
     const { user } = React.useContext(UserContext)
     const { setPage } = React.useContext(PageContext)
     const [message, setMessage] = React.useState('')
-    // const [messages, setMessages] = React.useState([{me:false, msg:'Hello'},{me:true, msg:'Hi'},{me:false, msg:'How are you?'},{me:true, msg:'I am fine'},{me:false,msg:"What's up?"}]);
     const scrollRef = useRef(null)
     const socket = useSocket();
-    const { chatWith, setChatWith } = useConversations();
-    const [messages, setMessages] = React.useState(chatWith.messages);
+    const { chatWith, setChatWith, conversations ,setConversations } = useConversations();
     const { setPotetialMatches } = usePotentialMatches();
 
 
@@ -29,10 +27,11 @@ export default function Chat(props) {
         }
     }
     useEffect(() => {
+        console.log("scroll")
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behaviour: "smooth" });
         }
-    }, [messages]);
+    }, [conversations]);
 
     const handleChange = (e) => {
         setMessage(e.target.value);
@@ -43,21 +42,24 @@ export default function Chat(props) {
         const newMessage = {
             message: message,
             sender: user.id,
-            receiver: chatWith.otherUser._id,
+            receiver: conversations[chatWith].otherUser._id,
             date: new Date()
         }
+        if(newMessage.message.length > 0) {
+            setConversations(prev => {
+                prev[chatWith].messages.push(newMessage);
+                return prev;
+            });
 
-        setMessages([...messages, newMessage]);
-
-        socket.emit("send-message", { room: chatWith.id, message: newMessage });
-
+            socket.emit("send-message", { room: conversations[chatWith].id, message: newMessage });
+        }
         setMessage('');
     }
 
     const handleBack = () => {
         setPotetialMatches(prev => prev.map(match => {
-            if (match.id === chatWith.id) {
-                return { ...match, messages: messages }
+            if (match.id === conversations[chatWith].id) {
+                return { ...match, messages: conversations[chatWith].messages }
             }
             return match;
         }));
@@ -65,21 +67,12 @@ export default function Chat(props) {
         setChatWith(null);
     }
 
-    useEffect(() => {
-        socket.on("receive-message", (data) => {
-            console.log(data);
-            // const newMsg = {msg: data.data.message, me: false}
-            setMessages((prev) => [...prev, data]);
-
-            return () => socket.off('receive-message');
-        });
-    }, []);
 
     const showMessages = () => {
 
         return (
-            messages.length ?
-            messages.map((m, index) => {
+            conversations[chatWith].messages.length ?
+            conversations[chatWith].messages.map((m, index) => {
                 return (
                     <Message key={index} message={m.message} right={m.sender == user.id} />
                 )
@@ -106,11 +99,11 @@ export default function Chat(props) {
                 </IconButton>
                 <Avatar
                     alt="Remy Sharp"
-                    src={chatWith.otherUser.image}
+                    src={conversations[chatWith].otherUser.image}
                     sx={{ width: 35, height: 35, ml: 2 }}
                 />
                 <Typography variant='h6' sx={{ fontFamily: 'Roboto', ml: 1 }}>
-                    {chatWith.otherUser.name}
+                    {conversations[chatWith].otherUser.name}
                 </Typography>
             </Box>
             <Box sx={{
