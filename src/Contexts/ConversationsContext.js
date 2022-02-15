@@ -29,7 +29,9 @@ export function  ConversationsProvider({ children }) {
                 return c;
             });
             console.log(tempConversations);
-            setConversations(tempConversations);
+            if(tempConversations.length > 0) {
+                setConversations(tempConversations);
+            }
            
                   
             // setConversations(prev => {
