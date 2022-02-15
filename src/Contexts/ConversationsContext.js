@@ -17,10 +17,7 @@ export function  ConversationsProvider({ children }) {
     useEffect(() => {
         if(socket) {
         socket.on("receive-message", (data) => {
-            console.log(data);
-
             let tempConversations = [...conversations];
-            console.log(tempConversations);
             tempConversations = tempConversations.map(c => {
                 if(c.id == data.room) {
                     console.log("found room");
@@ -33,18 +30,6 @@ export function  ConversationsProvider({ children }) {
                 setConversations(tempConversations);
             }
            
-                  
-            // setConversations(prev => {
-            //     const newConversations = [...prev];
-            //     newConversations.forEach(c => {
-            //         if (c.id === data.room) {
-            //             console.log(c.messages.length);
-            //             c.messages.push({sender:data.sender, message:data.data.message, receiver:data.data.receiver, date:data.data.date});
-            //             console.log(c.messages.length);
-            //         }
-            //     });
-            //     return newConversations;
-            // });
         });
         return () => {
             socket.off("receive-message");

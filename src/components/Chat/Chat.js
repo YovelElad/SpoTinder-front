@@ -15,11 +15,9 @@ export default function Chat(props) {
     const { user } = React.useContext(UserContext)
     const { setPage } = React.useContext(PageContext)
     const [message, setMessage] = React.useState('')
-    // const [messages, setMessages] = React.useState([{me:false, msg:'Hello'},{me:true, msg:'Hi'},{me:false, msg:'How are you?'},{me:true, msg:'I am fine'},{me:false,msg:"What's up?"}]);
     const scrollRef = useRef(null)
     const socket = useSocket();
     const { chatWith, setChatWith, conversations ,setConversations } = useConversations();
-    const [messages, setMessages] = React.useState(chatWith.messages);
     const { setPotetialMatches } = usePotentialMatches();
 
 
@@ -69,26 +67,6 @@ export default function Chat(props) {
         setChatWith(null);
     }
 
-    // useEffect(() => {
-    //     console.log("first use effect");
-    //     socket.on("receive-message", (data) => {
-    //         console.log(data);
-    //         // const newMsg = {msg: data.data.message, me: false}
-    //         setConversations(prev => {
-    //             const newConversations = [...prev];
-    //             newConversations.forEach(conversation => {
-    //                 if (conversation._id === data.data.room) {
-    //                     conversation.messages.push({sender:data.sender, message:data.data.message, receiver:data.data.receiver, date:data.data.date});
-    //                 }
-    //             });
-    //             return newConversations;
-    //         });
-    //         setMessages((prev) => [...prev, {sender:data.sender, message:data.data.message, receiver:data.data.receiver, date:data.data.date}]);
-
-
-    //     });
-    //     return () => socket.off('receive-message');
-    // }, []);
 
     const showMessages = () => {
 
