@@ -21,7 +21,10 @@ export function PotentialMatchesProvider({ children }) {
 
 
     useEffect(() => {
-        fetchPotentialMatchessData();
+        fetchPotentialMatchessData()
+        .then(data => {
+            setPotetialMatches(data);
+        })
     }, []);
 
     useEffect(() => {
@@ -88,7 +91,7 @@ export function PotentialMatchesProvider({ children }) {
                 }
                 )
                 )
-                setPotetialMatches(temp);
+                return(temp);
             } else {
                 console.log("Error while fetching data from server");
             }

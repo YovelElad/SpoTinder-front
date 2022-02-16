@@ -84,12 +84,12 @@ function App() {
                 <ThemeContext.Provider value={theme}>
                   <PageContext.Provider value={{ page, setPage }}>
                     <PotentialMatchesProvider>
-              <ConversationsProvider>
-                      {/* <NavBar/> */}
-                      <Box>
-                        {renderSwitch(page)}
-                      </Box>
-              </ConversationsProvider>
+                      <ConversationsProvider>
+                              {/* <NavBar/> */}
+                              <Box>
+                                {renderSwitch(page)}
+                              </Box>
+                      </ConversationsProvider>
                     </PotentialMatchesProvider>
                   </PageContext.Provider>
                 </ThemeContext.Provider>
