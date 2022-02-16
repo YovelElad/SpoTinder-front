@@ -5,7 +5,7 @@ import { ThemeContext } from '../../Contexts/ThemeContext';
 import { UserContext } from '../../Contexts/UserContext';
 import { PageContext } from '../../Contexts/PageContext';
 import { usePotentialMatches } from '../../Contexts/PotentialMatchesProvider';
-import { useConversations } from '../../Contexts/ConversationsContext';
+import { ConversationsProvider, useConversations } from '../../Contexts/ConversationsContext';
 
 
 export default function ItsAMatch(props) {
@@ -13,7 +13,7 @@ export default function ItsAMatch(props) {
     const {user} = React.useContext(UserContext);
     const {setPage} = React.useContext(PageContext);
     const {selectedMatch} = usePotentialMatches();
-    const {setChatWith} = useConversations();
+    const {setChatWith, conversations} = useConversations();
 
     const FilledButton = styled(Button)({
         background:'linear-gradient(180deg, #BB34D2 0%, #E12CC2 100%)',
@@ -36,6 +36,14 @@ export default function ItsAMatch(props) {
         fontSize: "1rem",
         width: "100%",
     });
+
+    const handleStartChatClick = () => {
+        const matchIndex =conversations.findIndex(conversation => conversation.id === selectedMatch.id);
+        if(matchIndex > -1) {
+            setChatWith(matchIndex);
+            setPage("chat");
+        }
+    }
 
     return (
         <div style={{
@@ -91,7 +99,7 @@ export default function ItsAMatch(props) {
             </Box>
             <Container>
                 <Stack spacing={3} mt={8}>
-                    <FilledButton onClick={()=>{setPage("chat");setChatWith(selectedMatch)}}>send a message</FilledButton>
+                    <FilledButton onClick={()=>{handleStartChatClick()}}>send a message</FilledButton>
                     <OutlinedButton onClick={()=>setPage("home")} >keep scrolling</OutlinedButton>
                 </Stack>
             </Container>
