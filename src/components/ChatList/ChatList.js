@@ -1,30 +1,22 @@
-import React , { useEffect } from 'react'
+import React from 'react'
 import List from '@mui/material/List';
-import { UserContext } from '../../Contexts/UserContext';
 import { PageContext } from '../../Contexts/PageContext';
 import ChatListItem from '../ChatListItem/ChatListItem';
-import { useSocket } from '../../Contexts/SocketProvider';
-import { ConversationsContext, useConversations } from '../../Contexts/ConversationsContext';
+import { useConversations } from '../../Contexts/ConversationsContext';
 import { usePotentialMatches } from '../../Contexts/PotentialMatchesProvider'
-import { Skeleton, ListItem, ListItemText, Typography } from '@mui/material';
-import { Image } from '@mui/icons-material';
-import { Box } from '@mui/system';
+import { Skeleton, ListItem, ListItemText } from '@mui/material';
 import EmptyPage from '../EmptyPage/EmptyPage';
 
  
 export default function ChatList() {
-    const {user} = React.useContext(UserContext)
     const {setPage} = React.useContext(PageContext)
-    const {chatWith, setChatWith, conversations} = useConversations();
+    const { setChatWith, conversations} = useConversations();
     const {potentialMatches} = usePotentialMatches();
 
     const handleClick = (match) => {
         setChatWith(match);
         setPage("chat");
     }
-
-    // useEffect(() => {
-
 
     const renderSkeleton = () => {
         return Array.apply(null, { length: 8 }).map((item, index) => {
@@ -62,7 +54,6 @@ export default function ChatList() {
             return <EmptyPage title="You have no matches yet!" subtitle="Try to like someone and they will appear here..." image="./images/empty_list.png" />
         }
     }
-
 
     return (
         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>

@@ -1,17 +1,12 @@
 import React from 'react';
 import Input from "./Input";
 import { Button } from '@mui/material';
-import axios from 'axios';
 import { UserContext } from '../../Contexts/UserContext';
 import { PageContext } from '../../Contexts/PageContext';
 import AuthService from "../../services/auth.service";
 import Logo from '../Logo/Logo';
 import TopBackground from '../TopBackground/TopBackground';
 import { ThemeContext } from '../../Contexts/ThemeContext';
-import { display } from '@mui/system';
-
-
-
 
 export default function Login() {
     const [email, setEmail] = React.useState('');
@@ -33,11 +28,6 @@ export default function Login() {
             setUserFound(false);
             console.log(err);
         });
-        // .then(res => {
-        // }).catch(err => {
-        //     console.log("err");
-        //     console.log(err);
-        // })
 
         setEmail('');
         setPassword('');
@@ -52,7 +42,6 @@ export default function Login() {
         <div className='login'>
             <TopBackground color={theme.purple}/>
             <div className='wrapper'>
-
                 <h1>
                     Login
                 </h1>

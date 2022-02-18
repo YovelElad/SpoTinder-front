@@ -3,22 +3,17 @@ import { UserContext } from '../Contexts/UserContext'
 import { PageContext } from "./PageContext";
 import userService from "../services/user.service";
 
-
 export const PotentialMatchesContext = createContext(null);
 
 export function usePotentialMatches() {
     return useContext(PotentialMatchesContext)
 }
 
-
-
 export function PotentialMatchesProvider({ children }) {
     const { user } = useContext(UserContext);
     const [potentialMatches, setPotetialMatches] = React.useState([]);
     const [selectedMatch, setSelectedMatch] = React.useState({});
     const {setPage} = React.useContext(PageContext);
-
-
 
     useEffect(() => {
         fetchPotentialMatchessData()
@@ -38,7 +33,6 @@ export function PotentialMatchesProvider({ children }) {
         const match = potentialMatches.find(m => m.id == matchID);
         if(match) {
             const response = await userService.updateMatch(userID, matchID, updateData);
-            console.log(response.data.data)
             if(response.data.status) {
                 const updatedMatch = {...match, thisUserLiked: !match.thisUserLiked};                
                 const updatedPotentialMatches = potentialMatches.map(m => m.id == matchID ? updatedMatch : m);
@@ -48,8 +42,7 @@ export function PotentialMatchesProvider({ children }) {
             }
         } else {
             console.log("match not found");
-        }
-        
+        }  
     }
 
     const fetchPotentialMatchessData = async () => {
@@ -66,15 +59,13 @@ export function PotentialMatchesProvider({ children }) {
                             otherPersonData = otherUserResponse.data;
                             otherPersonData = otherPersonData.data;
                         }
-
                     } catch(err) {
                         if(err.response.status == 401) {
                             localStorage.removeItem("user");
                             setPage('login');
                         } else {
                             console.log(err);
-                        }
-                        
+                        }                     
                     }
                     return {
                         id: item._id,

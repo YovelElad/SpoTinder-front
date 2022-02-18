@@ -5,8 +5,7 @@
     font-family: "Roboto";
 }
 
-/* #signup #wrapper, */
- .wrapper {
+.wrapper {
     width: 300px;
     height: 90vh;
     margin: 0 auto;
@@ -36,15 +35,12 @@
     display: none;
 }
 
-
-
 #signup form,
  .login form {
     position: absolute;
     top :400px;
     width: 300px;
     margin: auto;
-    /* margin-left: 50px; */
 }
 
 #signup form {
@@ -52,9 +48,7 @@
 
 }
 
-
 .login .wrapper .signUpButton{
-    /* background-color: #AA3FEC; */
     size: 20px;
     background-color: white;
     border: none;
@@ -65,14 +59,12 @@
 
 }
 
-
 #standard-basic{
     width: 300px;
 }
 
 #standard-select-currency{
     width: 300px;
-    /* display: block; */
 }
 
 .input {
@@ -85,9 +77,6 @@
     width:  300px;
     height: 52px;
 }
-
-
-
 
 .spotifyLogin {
     width: 100vw;

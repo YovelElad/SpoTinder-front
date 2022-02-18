@@ -10,10 +10,8 @@ export default function Profile() {
     const {user} = useContext(UserContext);
     const theme = useContext(ThemeContext);
     
-    
     return (
         <div>
-        
         <TopBackground color={theme.purple}/>
         <Box style={{height: "321px",}}>
             <Box style={{ 
@@ -45,7 +43,6 @@ export default function Profile() {
             </Box>
         </Box>
         <ProfileForm/>
-
         </div>
     )
 }

@@ -23,7 +23,6 @@ export function  ConversationsProvider({ children }) {
     useEffect(() => {
         if(socket) {
             socket.on("receive-message", (data) => {
-                console.log(conversationRef);
                 handleRecieveMessage(data);
             });
             return () => {
@@ -34,22 +33,18 @@ export function  ConversationsProvider({ children }) {
 
     const handleRecieveMessage = (data) => {
         let tempConversations = [...conversationRef.current];
-        console.log(tempConversations);
         tempConversations = tempConversations.map(c => {
             if(c.id == data.room) {
-                console.log("found room");
                 c.messages.push({sender:data.sender, message:data.data.message, receiver:data.data.receiver, date:data.data.date});
             }
             return c;
         });
-        console.log(tempConversations);
         if(tempConversations.length > 0) {
             setConversations(tempConversations);
         }
     }
 
     useEffect(() => {
-        console.log(conversations);
         if(socket) {
             conversations.forEach(conversation => {
                 socket.emit('join-room', {room: conversation.id});
@@ -64,10 +59,7 @@ export function  ConversationsProvider({ children }) {
 
 
     useEffect(() => {
-        console.log("here");
-        console.log(potentialMatches);
         const newConversations = potentialMatches.filter(m=>m.thisUserLiked && m.otherUserLiked);
-        console.log(newConversations);
         setConversations(newConversations);
     }, [potentialMatches]);
 

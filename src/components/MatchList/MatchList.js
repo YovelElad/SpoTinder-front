@@ -15,7 +15,6 @@ export default function MatchList() {
     const {selectedMatch, setSelectedMatch} = useContext(PotentialMatchesContext);
 
     const handleOpen = (user, match) => {
-        // console.log(match);
         setSelectedUser(user);
         setSelectedMatch(match);
         setOpen(true);
@@ -44,10 +43,7 @@ export default function MatchList() {
          });
     }
 
-
-    return (
-    
-        
+    return (   
         potentialMatches.length == 0 || potentialMatches.filter(item => user.interestedIn.includes(item.otherUser.gender.toLowerCase())).length > 0 ?
         <Grid container spacing={2}>
             {potentialMatches.length > 0 ? 

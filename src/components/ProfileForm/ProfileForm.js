@@ -6,9 +6,6 @@ import { Button, Checkbox, FormGroup, FormControlLabel , FormControl, FormLabel,
 import authService from '../../services/auth.service';
 import { PageContext } from '../../Contexts/PageContext';
 import userService from '../../services/user.service';
-// import { UserContext } from '../../Contexts/UserContext';
-
-
 
 export default function ProfileForm() {
     const {user, updateUser} = useContext(UserContext);
@@ -76,10 +73,8 @@ export default function ProfileForm() {
         e.preventDefault();
         const userData = {...user , ...inputFields};
         userService.updateUser(user.id, userData).then(res => {
-            console.log(res);
             if(res.status){
                 const existingUser = authService.getCurrentUser();
-                console.log(existingUser);
                 existingUser.user = userData;
                 existingUser.role = userData.role;
                 localStorage.setItem('user', JSON.stringify(existingUser));
@@ -87,9 +82,7 @@ export default function ProfileForm() {
                 setEditMode(false);
             }
         })
-    }
-
-            
+    }  
 
     const logOut = (e) => {
         e.preventDefault();

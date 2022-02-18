@@ -10,8 +10,7 @@ export default function Logo() {
             backgroundRepeat: "no-repeat",
             height: "100px",
             width: "100%",
-        }}>
-            
+        }}>   
         </div>
     )
 }

@@ -26,9 +26,6 @@ export default function ItsAMatch(props) {
     const OutlinedButton = styled(Button)({
         border: "3px solid",
         borderColor: theme.palePink,
-        // borderImageSlice: 1,
-        // borderWidth: "5px",
-        // borderImageSource: "linear-gradient(180deg, #BB34D2 0%, #E12CC2 100%)",
         borderRadius: "50px",
         color: "white",
         padding: "10px",

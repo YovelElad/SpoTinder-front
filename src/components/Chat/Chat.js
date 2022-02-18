@@ -10,7 +10,6 @@ import { useSocket } from '../../Contexts/SocketProvider';
 import { useConversations } from '../../Contexts/ConversationsContext';
 import { usePotentialMatches } from '../../Contexts/PotentialMatchesProvider'
 
-
 export default function Chat(props) {
     const { user } = React.useContext(UserContext)
     const { setPage } = React.useContext(PageContext)
@@ -20,14 +19,12 @@ export default function Chat(props) {
     const { chatWith, setChatWith, conversations ,setConversations } = useConversations();
     const { setPotetialMatches } = usePotentialMatches();
 
-
     const onKeyDown = (event) => {
         if (event.key === 'Enter' || event.code === "NumpadEnter") {
             handleSubmit(event);
         }
     }
     useEffect(() => {
-        console.log("scroll")
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behaviour: "smooth" });
         }
@@ -65,17 +62,15 @@ export default function Chat(props) {
         setChatWith(null);
     }
 
-
     const showMessages = () => {
-
         return (
             conversations[chatWith].messages.length ?
             conversations[chatWith].messages.map((m, index) => {
                 return (
                     <Message key={index} message={m.message} right={m.sender == user.id} />
                 )
-            }
-            ) :
+            }) 
+            :
             <p style={{
                 color: "gray",
                 marginTop: "60px",
