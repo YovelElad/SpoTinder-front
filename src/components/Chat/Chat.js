@@ -46,11 +46,9 @@ export default function Chat(props) {
             date: new Date()
         }
         if(newMessage.message.length > 0) {
-            setConversations(prev => {
-                prev[chatWith].messages.push(newMessage);
-                return prev;
-            });
-
+            const tempConversations = [...conversations];
+            tempConversations[chatWith].messages.push(newMessage);
+            setConversations(tempConversations);
             socket.emit("send-message", { room: conversations[chatWith].id, message: newMessage });
         }
         setMessage('');

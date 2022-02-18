@@ -15,9 +15,9 @@ export function  ConversationsProvider({ children }) {
     const socket = useSocket();  
     const conversationRef = React.useRef(conversations);      
 
-    const setConversations = (conversations) => {
-        conversationRef.current = conversations;
-        _setConversations(conversations);
+    const setConversations = (conv) => {
+        conversationRef.current = conv;
+        _setConversations(conv);
     }
 
     useEffect(() => {
