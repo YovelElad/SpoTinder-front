@@ -1,12 +1,12 @@
 # SpoTinder
 
-Developers:
+Developers: </br>
 Ofir Duchovne </br>
 Yovel Elad
 
-Dating app based on music taste!
-We realized that one of the great cause of contact between people is music, so we decided to develop a dating application that basically works like 'Tinder' but shows the users only people with same taste in music.
-It works with API from Spotify - when registering our system, the user require to approve Spotify sign up in order to get his top artists and tracks.
+Dating app based on music taste!</br>
+We realized that one of the great cause of contact between people is music, so we decided to develop a dating application that basically works like 'Tinder' but shows the users only people with same taste in music.</br>
+It works with API from Spotify - when registering our system, the user require to approve Spotify sign up in order to get his top artists and tracks.</br>
 With the matching algorithm we developed, the system knows what people to show the user.
 
 ## Available Scripts
@@ -34,10 +34,10 @@ In order to register the application, you need to contact one of us so we can ad
 
 We created for you 2 users you can login with, with match between them so you can see full functionality of the system:
 ### user1
-email: ofir@email.com
+email: ofir@email.com </br>
 password: 1234
 ### user2
-email: Ofir@test.test
+email: Ofir@test.test </br>
 password: 1234
 
 
