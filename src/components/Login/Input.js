@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 export default function Field({ userFound, type, whenChange, children, value, name }) {
 
     const onChange = (e) => {
-        // console.log(e.target.value)
         whenChange(e.target.value);
     }
     const renderSwitch = (userFound) => {

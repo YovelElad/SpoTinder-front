@@ -1,31 +1,22 @@
 import React from 'react'
 import "./Login.css"
 import Input from "./Input";
-import { Button, FormControl, FormGroup } from '@mui/material';
+import { Button, FormGroup } from '@mui/material';
 import Select from './Select';
-import Box from '@mui/material/Box';
 import { PageContext } from '../../Contexts/PageContext';
 import { UserContext } from '../../Contexts/UserContext';
 import TopBackground from '../TopBackground/TopBackground';
 import { ThemeContext } from '../../Contexts/ThemeContext';
 import Logo from '../Logo/Logo';
-// import "./Login.sass"
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { style } from '@mui/system';
-import authService from '../../services/auth.service';
 import Switch from '@mui/material/Switch';
-import { type } from '@testing-library/user-event/dist/type';
-
-
-
-
+import authService from '../../services/auth.service';
+import { FormControlLabel } from '@material-ui/core';
 
 export default function SignUp() {
 
@@ -39,8 +30,7 @@ export default function SignUp() {
     const [acceptTerms, setAcceptTerms] = React.useState(false);
     const theme = React.useContext(ThemeContext);
     const [preferences, setPreferences] = React.useState([]);
-    const { user, updateUser } = React.useContext(UserContext);
-
+    const { updateUser } = React.useContext(UserContext);
 
     function handleSubmit() {
         const userData = {
@@ -60,8 +50,6 @@ export default function SignUp() {
             }
         })
     }
-
-
 
     const handlePreferancesChange = (e) => {
         if (e.target.checked) {

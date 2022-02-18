@@ -54,7 +54,6 @@ const loggedOutRenderSwitch = (page) => {
 
   }
 }
-// #b14fed
 const theme = {
   purple: '#b14fed',
   blue: '#3f51b5',

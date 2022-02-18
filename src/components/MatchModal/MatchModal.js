@@ -1,22 +1,16 @@
 import React, { useContext } from 'react'
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import { Paper } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Chip from '@mui/material/Chip';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import CloseIcon from '@mui/icons-material/Close';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { ThemeContext } from '../../Contexts/ThemeContext';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { PotentialMatchesContext } from '../../Contexts/PotentialMatchesProvider'
 import { PageContext } from '../../Contexts/PageContext';
 import { UserContext } from '../../Contexts/UserContext';
-
-
 
 const style = {
     position: 'absolute',
@@ -38,9 +32,7 @@ export default function MatchModal(props) {
     const { user } = useContext(UserContext)
 
     const handleLike = async (e) => {
-        console.log(props.match.id)
         e.preventDefault();
-        // const updateData = props.match.whoAmI === "first" ? { firstUserLiked: true } : { secondUserLiked: true }
         const updateData = props.match.whoAmI === "first" ? { firstUserLiked: !(props.match.thisUserLiked) } : { secondUserLiked: !(props.match.thisUserLiked) }
         try {
             updateMatch(props.thisUser._id, props.match.id, updateData);
@@ -55,17 +47,12 @@ export default function MatchModal(props) {
     const handleUnlike = async (e) => {
         e.preventDefault();
         const updateData = props.match.whoAmI === "first" ? { firstUserLiked: false } : { secondUserLiked: false }
-        console.log(updateData);
         try {
             updateMatch(props.thisUser._id, props.match.id, updateData);
         } catch (error) {
             console.log(error);
         }
-        // props.handleClose();
-        
-        //    alert("unlike");
     }
-    console.log(props.match.thisUserLiked)
     return (
         <Modal
             open={props.isOpen}

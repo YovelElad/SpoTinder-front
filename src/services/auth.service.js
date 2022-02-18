@@ -9,7 +9,6 @@ const register = (_user, _isPaid) => {
     isPaid: _isPaid,
   })
   .then((response) => {
-    console.log(response);
     if (response.data.accessToken) {
       localStorage.setItem("user", JSON.stringify(response.data));
     }

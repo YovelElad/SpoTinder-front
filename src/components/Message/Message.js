@@ -11,7 +11,6 @@ export default function Message(props) {
         marginTop: '10px',
         maxWidth: '70%',
     }
-
     const Left = {
         background: '#F1F1F1',
         alignSelf: 'start',

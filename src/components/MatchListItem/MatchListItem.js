@@ -1,11 +1,7 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import { Box, Grid, Typography } from '@mui/material';
-import {Skeleton} from '@mui/material';
-
-
 
 export default function MatchListItem(props) {
-
     const onClick = () => {
         props.onClick(props.profile, props.match);
     }
