@@ -1,7 +1,7 @@
 # SpoTinder
 
 Developers:
-Ofir Duchovne
+Ofir Duchovne </br>
 Yovel Elad
 
 Dating app based on music taste!
